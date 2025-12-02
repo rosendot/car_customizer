@@ -1,9 +1,26 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import CarModel from './CarModel';
+import ControlPanel from './ControlPanel';
 
 export default function CarViewer() {
+  const [carColor, setCarColor] = useState('#e74c3c');
+  const [selectedParts, setSelectedParts] = useState({
+    wheels: 'stock',
+    spoiler: 'none',
+  });
+
+  const handleColorChange = (color: string) => {
+    setCarColor(color);
+    console.log('Color changed to:', color);
+  };
+
+  const handlePartChange = (category: string, partId: string) => {
+    setSelectedParts(prev => ({ ...prev, [category]: partId }));
+    console.log(`${category} changed to:`, partId);
+  };
+
   return (
     <div className="w-full h-screen">
       <Canvas shadows>
@@ -31,7 +48,7 @@ export default function CarViewer() {
 
         {/* Car Model */}
         <Suspense fallback={null}>
-          <CarModel />
+          <CarModel color={carColor} />
         </Suspense>
 
         {/* Ground plane */}
@@ -51,11 +68,17 @@ export default function CarViewer() {
         />
       </Canvas>
 
-      {/* Loading indicator */}
-      <div className="absolute top-4 left-4 text-white">
+      {/* Logo */}
+      <div className="absolute top-4 left-4 text-white pointer-events-none">
         <h1 className="text-2xl font-bold">Car Customizer</h1>
         <p className="text-sm text-gray-400">Phase 1 MVP</p>
       </div>
+
+      {/* Control Panel */}
+      <ControlPanel
+        onColorChange={handleColorChange}
+        onPartChange={handlePartChange}
+      />
     </div>
   );
 }

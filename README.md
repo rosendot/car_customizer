@@ -16,7 +16,7 @@ Build a web platform that lets users:
 
 ---
 
-## 🚀 Current Status: Phase 1 - Real Car Model Loaded! ✓
+## 🚀 Current Status: Phase 1 - Paint System Working! ✓
 
 **Development server running at: http://localhost:4322**
 
@@ -26,16 +26,19 @@ Build a web platform that lets users:
 - ✅ **HDR Environment**: Realistic reflections
 - ✅ **Camera Controls**: Orbit, pan, zoom
 - ✅ **Real Car Model**: 2010 Ford Fusion loaded and rendering
-- ✅ **Material System**: Ready for paint customization
-- ✅ **Parts Catalog**: Infrastructure ready
+- ✅ **UI Controls**: Slide-out sidebar with tabbed interface
+- ✅ **Paint Color Picker**: Real-time color changes (8 colors)
+- ✅ **Smart Material Detection**: Automatically preserves windows, tires, chrome
 
 ### Try It Now
 1. Visit http://localhost:4322
-2. Interact with 3D scene:
+2. Click **⚙ Customize** button (top right)
+3. Choose **Paint** tab
+4. Click any color swatch - watch the car change instantly!
+5. Interact with 3D scene:
    - **Left-click drag**: Rotate camera
    - **Right-click drag**: Pan view
    - **Scroll wheel**: Zoom
-3. The Ford Fusion should be visible with hover animation
 
 ---
 
@@ -45,8 +48,9 @@ Build a web platform that lets users:
 car-customizer/
 ├── src/
 │   ├── components/
-│   │   ├── CarViewer.tsx          # Main 3D canvas setup
-│   │   └── CarModel.tsx            # Loads Ford Fusion GLB model
+│   │   ├── CarViewer.tsx          # Main 3D canvas + state management
+│   │   ├── CarModel.tsx            # Car model with dynamic paint system
+│   │   └── ControlPanel.tsx        # UI sidebar (paint, wheels, body)
 │   ├── lib/
 │   │   ├── carConfig.ts            # Car configurations
 │   │   ├── parts.ts                # Parts catalog
@@ -91,19 +95,21 @@ npm run preview  # Preview production build
 #### Progress ✓
 - ✅ Get a real car 3D model (2010 Ford Fusion loaded)
 - ✅ 3D scene rendering at 60fps
+- ✅ Build UI Controls (sidebar with tabs)
+- ✅ Implement Paint Color Picker (8 colors, real-time)
+- ✅ Smart material detection (preserves windows, tires, chrome)
 
 #### Next Steps (In Priority Order)
-1. **Build UI Controls** - Create sidebar with part selection buttons
-2. **Implement Paint Color Picker** - Real-time color changes
-3. **Add Part Swapping Logic** - Swap wheels first (easiest)
-4. **Get Part Models** - Download 2-3 wheel options from Sketchfab
-5. **Screenshot Feature** - Capture canvas → download image
-6. **URL Sharing** - Encode build state in URL parameters
+1. **Paint Finishes** - Wire up matte/gloss/metallic/chrome buttons
+2. **Add Part Swapping Logic** - Swap wheels first (easiest)
+3. **Get Part Models** - Download 2-3 wheel options from Sketchfab
+4. **Screenshot Feature** - Capture canvas → download image
+5. **URL Sharing** - Encode build state in URL parameters
 
 **Success Metrics**:
 - ✓ One car renders smoothly (60fps)
+- ✓ Paint color changes in real-time
 - [ ] Can swap at least wheels + spoiler
-- [ ] Paint color changes in real-time
 - [ ] Screenshot downloads work
 - [ ] Shareable build URLs
 

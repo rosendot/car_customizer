@@ -9,9 +9,11 @@
 This car configurator showcases the core technology needed for e-commerce 3D product customization:
 1. **Real-time Material Changes** - Instant color and finish updates at 60fps
 2. **Smart Material Detection** - Automatically preserves windows, tires, and chrome parts
-3. **Professional Rendering** - HDR environment, dynamic lighting, realistic shadows
-4. **Screenshot Feature** - Capture and download customizations
-5. **Production-Ready UI** - Responsive sidebar controls
+3. **Professional Rendering** - 9 HDR environments, dynamic lighting, realistic shadows
+4. **Camera Control System** - Preset views (Front, Side, Rear, Top) with smooth transitions
+5. **Advanced Features** - Wireframe mode, shadow toggle, config export, custom color picker
+6. **Screenshot & Export** - Download images and configuration JSON
+7. **Production-Ready UI** - Responsive sidebar with all controls organized
 
 ### Why This Matters for Clients
 > The same system that handles a complex car model with 100+ parts can easily handle simpler products like sofas, backpacks, jewelry, or industrial equipment.
@@ -23,23 +25,38 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
 **Development server running at: http://localhost:4322**
 
 ### Features Implemented ✓
-- ✅ **60fps Performance**: Smooth rendering on all devices
-- ✅ **Real-time Color System**: 8 colors with instant preview
-- ✅ **Material Finishes**: Matte, Gloss, Metallic, Chrome
+
+**Core Customization:**
+- ✅ **Real-time Color System**: 8 preset colors + custom color picker for exact brand colors
+- ✅ **Material Finishes**: Matte, Gloss, Metallic, Chrome with real-time updates
 - ✅ **Smart Material Detection**: Automatically preserves specific parts (windows, tires, chrome)
-- ✅ **Professional Lighting**: HDR environment with dynamic shadows
-- ✅ **Interactive Camera**: Orbit, pan, zoom controls
+
+**Camera & Views:**
+- ✅ **Camera Presets**: Front, Side, Rear, Top, and Default views with one click
+- ✅ **Interactive Controls**: Orbit, pan, zoom with smooth damping
+- ✅ **9 Environments**: Sunset, Dawn, Night, Warehouse, Forest, Apartment, Studio, City, Park
+
+**Technical Features:**
+- ✅ **Wireframe Mode**: Toggle to view mesh geometry (great for B2B/technical clients)
+- ✅ **Shadow Toggle**: Show/hide ground shadows dynamically
 - ✅ **Screenshot Download**: Capture customizations as PNG
+- ✅ **Export Configuration**: Download settings as JSON for save/load functionality
 - ✅ **Loading State**: Professional loading indicator
-- ✅ **Responsive UI**: Clean sidebar interface
+- ✅ **60fps Performance**: Smooth rendering on all devices
 
 ### Live Demo Instructions
 1. Visit http://localhost:4322
 2. Click **⚙ Customize** button (top right)
-3. Click any color swatch - watch real-time updates
-4. Try different finishes - see material properties change instantly
-5. Click **📸 Download Screenshot** to save your customization
-6. Interact with 3D scene:
+3. **Try the features:**
+   - Click any color swatch or use custom color picker
+   - Switch between Matte, Gloss, Metallic, Chrome finishes
+   - Use camera presets (Front, Side, Rear, Top views)
+   - Change environment lighting (9 options)
+   - Toggle wireframe mode to see mesh geometry
+   - Toggle ground shadow on/off
+   - Click **📸 Screenshot** to download image
+   - Click **💾 Export Config** to save settings as JSON
+4. **Interact with 3D scene:**
    - **Left-click drag**: Rotate camera
    - **Right-click drag**: Pan view
    - **Scroll wheel**: Zoom in/out

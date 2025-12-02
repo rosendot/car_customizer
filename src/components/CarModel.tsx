@@ -6,10 +6,11 @@ import { Group, Mesh, MeshStandardMaterial, Color } from 'three';
 interface CarModelProps {
   color?: string;
   finish?: 'matte' | 'gloss' | 'metallic' | 'chrome';
+  wireframe?: boolean;
 }
 
 // Load the Ford Fusion 3D model
-export default function CarModel({ color = '#e74c3c', finish = 'gloss' }: CarModelProps) {
+export default function CarModel({ color = '#e74c3c', finish = 'gloss', wireframe = false }: CarModelProps) {
   const groupRef = useRef<Group>(null);
   const { scene } = useGLTF('/models/cars/ford-fusion.glb');
 
@@ -66,11 +67,12 @@ export default function CarModel({ color = '#e74c3c', finish = 'gloss' }: CarMod
           mat.roughness = props.roughness;
           mat.clearcoat = props.clearcoat;
           mat.clearcoatRoughness = props.clearcoatRoughness;
+          mat.wireframe = wireframe;
           mat.needsUpdate = true;
         }
       });
     }
-  }, [scene, color, finish]);
+  }, [scene, color, finish, wireframe]);
 
   // Optional: Add subtle hover effect
   useFrame((state) => {

@@ -5,10 +5,34 @@ interface ControlPanelProps {
   onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
   onPartChange?: (category: string, partId: string) => void;
   onScreenshot?: () => void;
+  onCameraPreset?: (preset: string) => void;
+  onEnvironmentChange?: (env: string) => void;
+  onToggleShadow?: () => void;
+  onToggleWireframe?: () => void;
+  onExportConfig?: () => void;
+  currentColor?: string;
+  currentEnvironment?: string;
+  showShadow?: boolean;
+  wireframe?: boolean;
 }
 
-export default function ControlPanel({ onColorChange, onFinishChange, onPartChange, onScreenshot }: ControlPanelProps) {
+export default function ControlPanel({
+  onColorChange,
+  onFinishChange,
+  onPartChange,
+  onScreenshot,
+  onCameraPreset,
+  onEnvironmentChange,
+  onToggleShadow,
+  onToggleWireframe,
+  onExportConfig,
+  currentColor,
+  currentEnvironment,
+  showShadow,
+  wireframe
+}: ControlPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
+  const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
 
   const paintColors = [
     { name: 'Red', value: '#e74c3c' },
@@ -77,16 +101,110 @@ export default function ControlPanel({ onColorChange, onFinishChange, onPartChan
                     </button>
                   ))}
                 </div>
+
+                {/* Custom Color Picker */}
+                <h3 className="text-lg font-semibold mt-6 mb-4">Custom Color</h3>
+                <div className="flex gap-2">
+                  <input
+                    type="color"
+                    value={customColor}
+                    onChange={(e) => {
+                      setCustomColor(e.target.value);
+                      onColorChange?.(e.target.value);
+                    }}
+                    className="w-16 h-12 rounded-lg cursor-pointer border-2 border-gray-700"
+                  />
+                  <input
+                    type="text"
+                    value={customColor}
+                    onChange={(e) => {
+                      setCustomColor(e.target.value);
+                      onColorChange?.(e.target.value);
+                    }}
+                    className="flex-1 px-3 py-2 bg-gray-800 rounded-lg border-2 border-gray-700 focus:border-orange-500 outline-none font-mono text-sm"
+                    placeholder="#e74c3c"
+                  />
+                </div>
+
+                {/* Camera Presets */}
+                <h3 className="text-lg font-semibold mt-6 mb-4">Camera Views</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { name: 'Front', value: 'front' },
+                    { name: 'Side', value: 'side' },
+                    { name: 'Rear', value: 'rear' },
+                    { name: 'Top', value: 'top' },
+                  ].map((preset) => (
+                    <button
+                      key={preset.value}
+                      onClick={() => onCameraPreset?.(preset.value)}
+                      className="py-2 px-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-sm"
+                    >
+                      {preset.name}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => onCameraPreset?.('default')}
+                  className="w-full mt-2 py-2 px-3 bg-gray-800 rounded-lg hover:bg-orange-600 transition-colors text-sm"
+                >
+                  Reset View
+                </button>
+
+                {/* Environment */}
+                <h3 className="text-lg font-semibold mt-6 mb-4">Environment</h3>
+                <select
+                  value={currentEnvironment}
+                  onChange={(e) => onEnvironmentChange?.(e.target.value)}
+                  className="w-full py-3 px-4 bg-gray-800 rounded-lg border-2 border-gray-700 focus:border-orange-500 outline-none cursor-pointer"
+                >
+                  <option value="sunset">Sunset</option>
+                  <option value="dawn">Dawn</option>
+                  <option value="night">Night</option>
+                  <option value="warehouse">Warehouse</option>
+                  <option value="forest">Forest</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="studio">Studio</option>
+                  <option value="city">City</option>
+                  <option value="park">Park</option>
+                </select>
+
+                {/* View Options */}
+                <h3 className="text-lg font-semibold mt-6 mb-4">View Options</h3>
+                <div className="space-y-2">
+                  <button
+                    onClick={onToggleShadow}
+                    className={`w-full py-3 px-4 rounded-lg transition-colors text-left ${
+                      showShadow ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-gray-700'
+                    }`}
+                  >
+                    {showShadow ? '✓' : '○'} Ground Shadow
+                  </button>
+                  <button
+                    onClick={onToggleWireframe}
+                    className={`w-full py-3 px-4 rounded-lg transition-colors text-left ${
+                      wireframe ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-gray-700'
+                    }`}
+                  >
+                    {wireframe ? '✓' : '○'} Wireframe Mode
+                  </button>
+                </div>
               </div>
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-gray-700">
+          <div className="p-6 border-t border-gray-700 space-y-2">
             <button
               onClick={onScreenshot}
               className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-colors"
             >
-              📸 Download Screenshot
+              📸 Screenshot
+            </button>
+            <button
+              onClick={onExportConfig}
+              className="w-full py-3 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg font-semibold transition-colors"
+            >
+              💾 Export Config
             </button>
           </div>
         </div>

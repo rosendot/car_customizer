@@ -22,7 +22,12 @@ export default function CarViewer() {
     wheels: 'stock',
     spoiler: 'none',
   });
+  const [environment, setEnvironment] = useState<'sunset' | 'dawn' | 'night' | 'warehouse' | 'forest' | 'apartment' | 'studio' | 'city' | 'park'>('city');
+  const [showShadow, setShowShadow] = useState(true);
+  const [wireframe, setWireframe] = useState(false);
+  const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const controlsRef = useRef<any>(null);
 
   const handleColorChange = (color: string) => {
     setCarColor(color);
@@ -52,10 +57,40 @@ export default function CarViewer() {
     }, 'image/png');
   };
 
+  const handleCameraPreset = (preset: string) => {
+    const presets: Record<string, [number, number, number]> = {
+      front: [0, 1, 6],
+      side: [7, 1, 0],
+      rear: [0, 1, -6],
+      top: [0, 8, 0],
+      default: [5, 2, 5],
+    };
+    setCameraPosition(presets[preset] || presets.default);
+    if (controlsRef.current) {
+      controlsRef.current.target.set(0, 0.5, 0);
+    }
+  };
+
+  const handleExportConfig = () => {
+    const config = {
+      color: carColor,
+      finish: paintFinish,
+      environment,
+      timestamp: new Date().toISOString(),
+    };
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `car-config-${Date.now()}.json`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="w-full h-screen">
       <Canvas shadows>
-        <PerspectiveCamera makeDefault position={[5, 2, 5]} fov={50} />
+        <PerspectiveCamera makeDefault position={cameraPosition} fov={50} />
 
         {/* Lighting Setup */}
         <ambientLight intensity={0.4} />
@@ -75,21 +110,24 @@ export default function CarViewer() {
         />
 
         {/* Environment for reflections */}
-        <Environment preset="city" />
+        <Environment preset={environment} />
 
         {/* Car Model */}
         <Suspense fallback={<LoadingIndicator />}>
-          <CarModel color={carColor} finish={paintFinish} />
+          <CarModel color={carColor} finish={paintFinish} wireframe={wireframe} />
         </Suspense>
 
         {/* Ground plane */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-          <planeGeometry args={[50, 50]} />
-          <shadowMaterial opacity={0.3} />
-        </mesh>
+        {showShadow && (
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+            <planeGeometry args={[50, 50]} />
+            <shadowMaterial opacity={0.3} />
+          </mesh>
+        )}
 
         {/* Camera Controls */}
         <OrbitControls
+          ref={controlsRef}
           enableDamping
           dampingFactor={0.05}
           minDistance={3}
@@ -111,6 +149,15 @@ export default function CarViewer() {
         onFinishChange={handleFinishChange}
         onPartChange={handlePartChange}
         onScreenshot={handleScreenshot}
+        onCameraPreset={handleCameraPreset}
+        onEnvironmentChange={setEnvironment}
+        onToggleShadow={() => setShowShadow(!showShadow)}
+        onToggleWireframe={() => setWireframe(!wireframe)}
+        onExportConfig={handleExportConfig}
+        currentColor={carColor}
+        currentEnvironment={environment}
+        showShadow={showShadow}
+        wireframe={wireframe}
       />
     </div>
   );

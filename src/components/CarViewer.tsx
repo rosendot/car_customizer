@@ -1,8 +1,19 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
-import { Suspense, useState } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls, Environment, PerspectiveCamera, Html } from '@react-three/drei';
+import { Suspense, useState, useRef } from 'react';
 import CarModel from './CarModel';
 import ControlPanel from './ControlPanel';
+
+function LoadingIndicator() {
+  return (
+    <Html center>
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-white font-semibold">Loading 3D Model...</p>
+      </div>
+    </Html>
+  );
+}
 
 export default function CarViewer() {
   const [carColor, setCarColor] = useState('#e74c3c');
@@ -11,6 +22,7 @@ export default function CarViewer() {
     wheels: 'stock',
     spoiler: 'none',
   });
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleColorChange = (color: string) => {
     setCarColor(color);
@@ -23,6 +35,21 @@ export default function CarViewer() {
   const handlePartChange = (category: string, partId: string) => {
     setSelectedParts(prev => ({ ...prev, [category]: partId }));
     console.log(`${category} changed to:`, partId);
+  };
+
+  const handleScreenshot = () => {
+    const canvas = document.querySelector('canvas');
+    if (!canvas) return;
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = `car-customization-${Date.now()}.png`;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    }, 'image/png');
   };
 
   return (
@@ -51,7 +78,7 @@ export default function CarViewer() {
         <Environment preset="city" />
 
         {/* Car Model */}
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingIndicator />}>
           <CarModel color={carColor} finish={paintFinish} />
         </Suspense>
 
@@ -83,6 +110,7 @@ export default function CarViewer() {
         onColorChange={handleColorChange}
         onFinishChange={handleFinishChange}
         onPartChange={handlePartChange}
+        onScreenshot={handleScreenshot}
       />
     </div>
   );

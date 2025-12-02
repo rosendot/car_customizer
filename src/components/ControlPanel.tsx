@@ -4,11 +4,11 @@ interface ControlPanelProps {
   onColorChange?: (color: string) => void;
   onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
   onPartChange?: (category: string, partId: string) => void;
+  onScreenshot?: () => void;
 }
 
-export default function ControlPanel({ onColorChange, onFinishChange, onPartChange }: ControlPanelProps) {
+export default function ControlPanel({ onColorChange, onFinishChange, onPartChange, onScreenshot }: ControlPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'paint' | 'wheels' | 'body'>('paint');
 
   const paintColors = [
     { name: 'Red', value: '#e74c3c' },
@@ -19,18 +19,6 @@ export default function ControlPanel({ onColorChange, onFinishChange, onPartChan
     { name: 'Green', value: '#2ecc71' },
     { name: 'Orange', value: '#e67e22' },
     { name: 'Purple', value: '#9b59b6' },
-  ];
-
-  const wheelOptions = [
-    { id: 'stock', name: 'Stock Wheels' },
-    { id: 'sport', name: 'Sport Wheels' },
-    { id: 'racing', name: 'Racing Wheels' },
-  ];
-
-  const bodyParts = [
-    { id: 'none', name: 'No Spoiler' },
-    { id: 'ducktail', name: 'Duck Tail' },
-    { id: 'gt_wing', name: 'GT Wing' },
   ];
 
   return (
@@ -56,45 +44,9 @@ export default function ControlPanel({ onColorChange, onFinishChange, onPartChan
             <p className="text-gray-400 text-sm mt-1">2010 Ford Fusion</p>
           </div>
 
-          {/* Tabs */}
-          <div className="flex border-b border-gray-700">
-            <button
-              onClick={() => setActiveTab('paint')}
-              className={`flex-1 py-3 px-4 font-semibold transition-colors ${
-                activeTab === 'paint'
-                  ? 'bg-gray-800 text-white border-b-2 border-orange-500'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800'
-              }`}
-            >
-              🎨 Paint
-            </button>
-            <button
-              onClick={() => setActiveTab('wheels')}
-              className={`flex-1 py-3 px-4 font-semibold transition-colors ${
-                activeTab === 'wheels'
-                  ? 'bg-gray-800 text-white border-b-2 border-orange-500'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800'
-              }`}
-            >
-              🛞 Wheels
-            </button>
-            <button
-              onClick={() => setActiveTab('body')}
-              className={`flex-1 py-3 px-4 font-semibold transition-colors ${
-                activeTab === 'body'
-                  ? 'bg-gray-800 text-white border-b-2 border-orange-500'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-800'
-              }`}
-            >
-              🚗 Body
-            </button>
-          </div>
-
           {/* Content */}
           <div className="flex-1 overflow-y-auto p-6">
-            {/* Paint Tab */}
-            {activeTab === 'paint' && (
-              <div>
+            <div>
                 <h3 className="text-lg font-semibold mb-4">Paint Color</h3>
                 <div className="grid grid-cols-4 gap-3">
                   {paintColors.map((color) => (
@@ -126,69 +78,15 @@ export default function ControlPanel({ onColorChange, onFinishChange, onPartChan
                   ))}
                 </div>
               </div>
-            )}
-
-            {/* Wheels Tab */}
-            {activeTab === 'wheels' && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Wheel Options</h3>
-                <div className="space-y-2">
-                  {wheelOptions.map((wheel) => (
-                    <button
-                      key={wheel.id}
-                      onClick={() => onPartChange?.('wheels', wheel.id)}
-                      className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left flex justify-between items-center"
-                    >
-                      <span>{wheel.name}</span>
-                      {wheel.id !== 'stock' && (
-                        <span className="text-orange-500 text-sm">Coming Soon</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Body Tab */}
-            {activeTab === 'body' && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Spoilers</h3>
-                <div className="space-y-2">
-                  {bodyParts.map((part) => (
-                    <button
-                      key={part.id}
-                      onClick={() => onPartChange?.('spoiler', part.id)}
-                      className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left flex justify-between items-center"
-                    >
-                      <span>{part.name}</span>
-                      {part.id !== 'none' && (
-                        <span className="text-orange-500 text-sm">Coming Soon</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-
-                <h3 className="text-lg font-semibold mt-6 mb-4">Hoods</h3>
-                <div className="space-y-2">
-                  <button className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left flex justify-between items-center">
-                    <span>Stock Hood</span>
-                  </button>
-                  <button className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left flex justify-between items-center">
-                    <span>Carbon Fiber Hood</span>
-                    <span className="text-orange-500 text-sm">Coming Soon</span>
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-gray-700 space-y-2">
-            <button className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-colors">
-              📸 Screenshot
-            </button>
-            <button className="w-full py-3 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg font-semibold transition-colors">
-              🔗 Share Build
+          <div className="p-6 border-t border-gray-700">
+            <button
+              onClick={onScreenshot}
+              className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-colors"
+            >
+              📸 Download Screenshot
             </button>
           </div>
         </div>

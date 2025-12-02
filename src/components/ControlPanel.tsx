@@ -2,10 +2,11 @@ import { useState } from 'react';
 
 interface ControlPanelProps {
   onColorChange?: (color: string) => void;
+  onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
   onPartChange?: (category: string, partId: string) => void;
 }
 
-export default function ControlPanel({ onColorChange, onPartChange }: ControlPanelProps) {
+export default function ControlPanel({ onColorChange, onFinishChange, onPartChange }: ControlPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<'paint' | 'wheels' | 'body'>('paint');
 
@@ -109,12 +110,18 @@ export default function ControlPanel({ onColorChange, onPartChange }: ControlPan
 
                 <h3 className="text-lg font-semibold mt-6 mb-4">Finish</h3>
                 <div className="space-y-2">
-                  {['Matte', 'Gloss', 'Metallic', 'Chrome'].map((finish) => (
+                  {[
+                    { name: 'Matte', value: 'matte' as const },
+                    { name: 'Gloss', value: 'gloss' as const },
+                    { name: 'Metallic', value: 'metallic' as const },
+                    { name: 'Chrome', value: 'chrome' as const }
+                  ].map((finish) => (
                     <button
-                      key={finish}
-                      className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left"
+                      key={finish.value}
+                      onClick={() => onFinishChange?.(finish.value)}
+                      className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left hover:bg-orange-600"
                     >
-                      {finish}
+                      {finish.name}
                     </button>
                   ))}
                 </div>

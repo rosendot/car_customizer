@@ -16,7 +16,7 @@ Build a web platform that lets users:
 
 ---
 
-## 🚀 Current Status: Phase 1 - Paint System Working! ✓
+## 🚀 Current Status: Phase 1 - Full Paint System Complete! ✓
 
 **Development server running at: http://localhost:4322**
 
@@ -28,6 +28,7 @@ Build a web platform that lets users:
 - ✅ **Real Car Model**: 2010 Ford Fusion loaded and rendering
 - ✅ **UI Controls**: Slide-out sidebar with tabbed interface
 - ✅ **Paint Color Picker**: Real-time color changes (8 colors)
+- ✅ **Paint Finishes**: Matte, Gloss, Metallic, Chrome (real-time)
 - ✅ **Smart Material Detection**: Automatically preserves windows, tires, chrome
 
 ### Try It Now
@@ -35,7 +36,12 @@ Build a web platform that lets users:
 2. Click **⚙ Customize** button (top right)
 3. Choose **Paint** tab
 4. Click any color swatch - watch the car change instantly!
-5. Interact with 3D scene:
+5. Click any finish button - see material properties update:
+   - **Matte**: Flat, dull finish
+   - **Gloss**: Shiny with clearcoat
+   - **Metallic**: Metallic sparkle
+   - **Chrome**: Mirror-like reflection
+6. Interact with 3D scene:
    - **Left-click drag**: Rotate camera
    - **Right-click drag**: Pan view
    - **Scroll wheel**: Zoom
@@ -98,13 +104,13 @@ npm run preview  # Preview production build
 - ✅ Build UI Controls (sidebar with tabs)
 - ✅ Implement Paint Color Picker (8 colors, real-time)
 - ✅ Smart material detection (preserves windows, tires, chrome)
+- ✅ Paint Finishes (Matte, Gloss, Metallic, Chrome)
 
 #### Next Steps (In Priority Order)
-1. **Paint Finishes** - Wire up matte/gloss/metallic/chrome buttons
-2. **Add Part Swapping Logic** - Swap wheels first (easiest)
-3. **Get Part Models** - Download 2-3 wheel options from Sketchfab
-4. **Screenshot Feature** - Capture canvas → download image
-5. **URL Sharing** - Encode build state in URL parameters
+1. **Add Part Swapping Logic** - Swap wheels first (easiest)
+2. **Get Part Models** - Download 2-3 wheel options from Sketchfab
+3. **Screenshot Feature** - Capture canvas → download image
+4. **URL Sharing** - Encode build state in URL parameters
 
 **Success Metrics**:
 - ✓ One car renders smoothly (60fps)

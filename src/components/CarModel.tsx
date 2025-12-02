@@ -5,10 +5,11 @@ import { Group, Mesh, MeshStandardMaterial, Color } from 'three';
 
 interface CarModelProps {
   color?: string;
+  finish?: 'matte' | 'gloss' | 'metallic' | 'chrome';
 }
 
 // Load the Ford Fusion 3D model
-export default function CarModel({ color = '#e74c3c' }: CarModelProps) {
+export default function CarModel({ color = '#e74c3c', finish = 'gloss' }: CarModelProps) {
   const groupRef = useRef<Group>(null);
   const { scene } = useGLTF('/models/cars/ford-fusion.glb');
 
@@ -27,9 +28,19 @@ export default function CarModel({ color = '#e74c3c' }: CarModelProps) {
     }
   }, [scene]);
 
-  // Apply color to appropriate parts
+  // Apply color and finish to appropriate parts
   useEffect(() => {
     if (scene) {
+      // Define finish properties
+      const finishProps = {
+        matte: { metalness: 0.1, roughness: 0.8, clearcoat: 0, clearcoatRoughness: 0 },
+        gloss: { metalness: 0.3, roughness: 0.2, clearcoat: 1.0, clearcoatRoughness: 0.1 },
+        metallic: { metalness: 0.9, roughness: 0.3, clearcoat: 0, clearcoatRoughness: 0 },
+        chrome: { metalness: 1.0, roughness: 0.1, clearcoat: 0, clearcoatRoughness: 0 }
+      };
+
+      const props = finishProps[finish];
+
       scene.traverse((child) => {
         if (child instanceof Mesh && child.material instanceof MeshStandardMaterial) {
           const mat = child.material;
@@ -49,15 +60,17 @@ export default function CarModel({ color = '#e74c3c' }: CarModelProps) {
           const isBright = originalColor.r > 0.9 && originalColor.g > 0.9 && originalColor.b > 0.9;
           if (isBright) return;
 
-          // Color the body
+          // Apply color and finish
           mat.color = new Color(color);
-          mat.metalness = 0.6;
-          mat.roughness = 0.4;
+          mat.metalness = props.metalness;
+          mat.roughness = props.roughness;
+          mat.clearcoat = props.clearcoat;
+          mat.clearcoatRoughness = props.clearcoatRoughness;
           mat.needsUpdate = true;
         }
       });
     }
-  }, [scene, color]);
+  }, [scene, color, finish]);
 
   // Optional: Add subtle hover effect
   useFrame((state) => {

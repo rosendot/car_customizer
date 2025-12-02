@@ -6,6 +6,7 @@ import ControlPanel from './ControlPanel';
 
 export default function CarViewer() {
   const [carColor, setCarColor] = useState('#e74c3c');
+  const [paintFinish, setPaintFinish] = useState<'matte' | 'gloss' | 'metallic' | 'chrome'>('gloss');
   const [selectedParts, setSelectedParts] = useState({
     wheels: 'stock',
     spoiler: 'none',
@@ -13,7 +14,10 @@ export default function CarViewer() {
 
   const handleColorChange = (color: string) => {
     setCarColor(color);
-    console.log('Color changed to:', color);
+  };
+
+  const handleFinishChange = (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => {
+    setPaintFinish(finish);
   };
 
   const handlePartChange = (category: string, partId: string) => {
@@ -48,7 +52,7 @@ export default function CarViewer() {
 
         {/* Car Model */}
         <Suspense fallback={null}>
-          <CarModel color={carColor} />
+          <CarModel color={carColor} finish={paintFinish} />
         </Suspense>
 
         {/* Ground plane */}
@@ -77,6 +81,7 @@ export default function CarViewer() {
       {/* Control Panel */}
       <ControlPanel
         onColorChange={handleColorChange}
+        onFinishChange={handleFinishChange}
         onPartChange={handlePartChange}
       />
     </div>

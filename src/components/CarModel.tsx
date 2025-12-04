@@ -8,10 +8,11 @@ interface CarModelProps {
   finish?: 'matte' | 'gloss' | 'metallic' | 'chrome';
   wireframe?: boolean;
   windowTint?: number;
+  autoSpin?: boolean;
 }
 
 // Load the Ford Fusion 3D model
-export default function CarModel({ color = '#e74c3c', finish = 'gloss', wireframe = false, windowTint = 0.3 }: CarModelProps) {
+export default function CarModel({ color = '#e74c3c', finish = 'gloss', wireframe = false, windowTint = 0.3, autoSpin = true }: CarModelProps) {
   const groupRef = useRef<Group>(null);
   const { scene } = useGLTF('/models/cars/ford-fusion.glb');
 
@@ -85,10 +86,16 @@ export default function CarModel({ color = '#e74c3c', finish = 'gloss', wirefram
     }
   }, [scene, color, finish, wireframe, windowTint]);
 
-  // Optional: Add subtle hover effect
+  // Auto-spin and subtle hover effect
   useFrame((state) => {
     if (groupRef.current) {
+      // Subtle bounce effect
       groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.05;
+
+      // Auto-spin rotation
+      if (autoSpin) {
+        groupRef.current.rotation.y += 0.005;
+      }
     }
   });
 

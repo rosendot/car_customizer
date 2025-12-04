@@ -29,6 +29,7 @@ export default function CarViewer() {
   const [windowTint, setWindowTint] = useState(0.3); // 0 = clear, 1 = darkest
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [autoSpin, setAutoSpin] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef<any>(null);
 
@@ -117,7 +118,7 @@ export default function CarViewer() {
 
         {/* Car Model */}
         <Suspense fallback={<LoadingIndicator />}>
-          <CarModel color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} />
+          <CarModel color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} autoSpin={autoSpin} />
         </Suspense>
 
         {/* Ground plane */}
@@ -147,7 +148,7 @@ export default function CarViewer() {
       </div>
 
       {/* Camera Controls - Auto-hiding top center */}
-      <CameraControls onCameraPreset={handleCameraPreset} />
+      <CameraControls onCameraPreset={handleCameraPreset} autoSpin={autoSpin} onToggleAutoSpin={() => setAutoSpin(!autoSpin)} />
 
       {/* Control Panel */}
       <ControlPanel

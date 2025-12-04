@@ -34,6 +34,16 @@ export default function ControlPanel({
   const [isOpen, setIsOpen] = useState(true);
   const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
 
+  // Function to determine if color is light or dark for text contrast
+  const isLightColor = (hexColor: string) => {
+    const hex = hexColor.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness > 155;
+  };
+
   const paintColors = [
     { name: 'Red', value: '#e74c3c' },
     { name: 'Blue', value: '#3498db' },
@@ -103,21 +113,52 @@ export default function ControlPanel({
                 </div>
 
                 <h3 className="text-lg font-semibold mt-6 mb-4">Finish</h3>
-                <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-3">
                   {[
-                    { name: 'Matte', value: 'matte' as const },
-                    { name: 'Gloss', value: 'gloss' as const },
-                    { name: 'Metallic', value: 'metallic' as const },
-                    { name: 'Chrome', value: 'chrome' as const }
-                  ].map((finish) => (
-                    <button
-                      key={finish.value}
-                      onClick={() => onFinishChange?.(finish.value)}
-                      className="w-full py-3 px-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-left hover:bg-orange-600"
-                    >
-                      {finish.name}
-                    </button>
-                  ))}
+                    {
+                      name: 'Matte',
+                      value: 'matte' as const,
+                      description: 'Flat, no shine',
+                      getGradient: (color: string) => `linear-gradient(135deg, ${color} 0%, ${color} 100%)`
+                    },
+                    {
+                      name: 'Gloss',
+                      value: 'gloss' as const,
+                      description: 'Shiny, reflective',
+                      getGradient: (color: string) => `linear-gradient(135deg, #ffffff 0%, ${color} 50%, ${color}dd 100%)`
+                    },
+                    {
+                      name: 'Metallic',
+                      value: 'metallic' as const,
+                      description: 'Metal flake',
+                      getGradient: (color: string) => `linear-gradient(135deg, ${color}ff 0%, ${color}cc 40%, ${color}88 60%, ${color}cc 100%)`
+                    },
+                    {
+                      name: 'Chrome',
+                      value: 'chrome' as const,
+                      description: 'Mirror finish',
+                      getGradient: (color: string) => `linear-gradient(135deg, #ffffff 0%, ${color}aa 20%, #ffffff 40%, ${color}88 60%, #ffffff 80%, ${color}aa 100%)`
+                    }
+                  ].map((finish) => {
+                    const activeColor = currentColor || customColor;
+                    const textColor = isLightColor(activeColor) ? 'text-gray-900' : 'text-white';
+                    return (
+                      <button
+                        key={finish.value}
+                        onClick={() => onFinishChange?.(finish.value)}
+                        className="relative overflow-hidden rounded-lg border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-105 group"
+                      >
+                        <div
+                          className="absolute inset-0 transition-all duration-300"
+                          style={{ background: finish.getGradient(activeColor) }}
+                        />
+                        <div className="relative py-4 px-3 text-center">
+                          <div className={`font-semibold ${textColor} drop-shadow-lg transition-colors duration-300`}>{finish.name}</div>
+                          <div className={`text-xs ${textColor} drop-shadow-md mt-1 transition-colors duration-300`}>{finish.description}</div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {/* Camera Presets */}

@@ -146,8 +146,8 @@ export default function CarViewer() {
         <p className="text-sm text-gray-400">Phase 1 MVP</p>
       </div>
 
-      {/* Camera Controls - Top Right */}
-      <CameraControls onCameraPreset={handleCameraPreset} sidebarOpen={sidebarOpen} />
+      {/* Camera Controls - Auto-hiding top center */}
+      <CameraControls onCameraPreset={handleCameraPreset} />
 
       {/* Control Panel */}
       <ControlPanel

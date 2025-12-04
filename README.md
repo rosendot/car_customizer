@@ -27,12 +27,18 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
 ### Features Implemented ✓
 
 **Core Customization:**
-- ✅ **Real-time Color System**: 8 preset colors + custom color picker for exact brand colors
-- ✅ **Material Finishes**: Matte, Gloss, Metallic, Chrome with real-time updates
+- ✅ **Real-time Color System**: 7 preset colors + custom color picker with rainbow gradient indicator
+- ✅ **Material Finishes Carousel**: Interactive carousel with 4 finishes (Matte, Gloss, Metallic, Chrome)
+  - Dynamic gradient previews that adapt to current car color
+  - Auto-adjusting text color for optimal readability
+  - Smooth slide animations with dot indicators
 - ✅ **Smart Material Detection**: Automatically preserves specific parts (windows, tires, chrome)
 
 **Camera & Views:**
-- ✅ **Camera Presets**: Front, Side, Rear, Top, and Default views with one click
+- ✅ **Floating Camera Controls**: Icon-based 2x2 grid in top-right corner
+  - Front, Side, Rear, Top preset views with directional arrows
+  - Reset button for default view
+  - Responsive positioning that moves with sidebar
 - ✅ **Interactive Controls**: Orbit, pan, zoom with smooth damping
 - ✅ **9 Environments**: Sunset, Dawn, Night, Warehouse, Forest, Apartment, Studio, City, Park
 
@@ -48,12 +54,11 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
 1. Visit http://localhost:4322
 2. Click **⚙ Customize** button (top right)
 3. **Try the features:**
-   - Click any color swatch or use custom color picker
-   - Switch between Matte, Gloss, Metallic, Chrome finishes
-   - Use camera presets (Front, Side, Rear, Top views)
-   - Change environment lighting (9 options)
-   - Toggle wireframe mode to see mesh geometry
-   - Toggle ground shadow on/off
+   - **Color Selection**: Click any color swatch or the rainbow gradient square for custom colors
+   - **Finish Carousel**: Use arrow buttons or dots to cycle through finishes (watch them preview in your car's color!)
+   - **Camera Controls**: Use the floating 2x2 grid (top-right) for instant camera angles
+   - **Environment**: Dropdown to change lighting (9 HDR options)
+   - **View Options**: Toggle wireframe mode or ground shadow
    - Click **📸 Screenshot** to download image
    - Click **💾 Export Config** to save settings as JSON
 4. **Interact with 3D scene:**
@@ -71,7 +76,8 @@ car-customizer/
 │   ├── components/
 │   │   ├── CarViewer.tsx          # Main 3D canvas + state management
 │   │   ├── CarModel.tsx            # Car model with dynamic paint system
-│   │   └── ControlPanel.tsx        # UI sidebar (paint, wheels, body)
+│   │   ├── ControlPanel.tsx        # UI sidebar with carousel finish selector
+│   │   └── CameraControls.tsx      # Floating camera preset controls
 │   ├── lib/
 │   │   ├── carConfig.ts            # Car configurations
 │   │   ├── parts.ts                # Parts catalog
@@ -160,18 +166,26 @@ The configurator uses intelligent material detection to automatically identify a
 
 This means when you change the paint color, it only affects the body - no manual masking required.
 
+### Interactive Finish Carousel
+The finish selector features a sophisticated preview system:
+- **Dynamic gradients**: Each finish generates CSS gradients based on current car color
+- **Adaptive text**: Text color automatically adjusts (dark/light) based on background brightness using luminance calculation
+- **Smooth animations**: 500ms slide transitions with opacity fading
+- **Visual feedback**: Dot indicators show current position with expanding active state
+
 ### Performance Optimizations
 - **60fps target**: Optimized rendering pipeline
 - **Lazy loading**: 3D model loads on demand with loading state
 - **Efficient updates**: Materials update without reloading geometry
 - **Shadow optimization**: Balanced quality and performance
+- **Responsive UI**: Camera controls smoothly reposition when sidebar opens/closes (300ms transition)
 
 ### Material Properties
 Each finish uses specific Three.js material properties:
-- **Matte**: Low metalness (0.1), high roughness (0.8)
-- **Gloss**: Medium metalness (0.3), low roughness (0.2), clearcoat enabled
-- **Metallic**: High metalness (0.9), medium roughness (0.3)
-- **Chrome**: Max metalness (1.0), minimal roughness (0.1)
+- **Matte**: Low metalness (0.1), high roughness (0.8), no clearcoat
+- **Gloss**: Medium metalness (0.3), low roughness (0.2), clearcoat (1.0) enabled
+- **Metallic**: High metalness (0.9), medium roughness (0.3), subtle shimmer effect
+- **Chrome**: Max metalness (1.0), minimal roughness (0.1), mirror-like reflections
 
 ---
 

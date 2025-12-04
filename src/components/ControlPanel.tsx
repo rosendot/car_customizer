@@ -5,11 +5,11 @@ interface ControlPanelProps {
   onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
   onPartChange?: (category: string, partId: string) => void;
   onScreenshot?: () => void;
-  onCameraPreset?: (preset: string) => void;
   onEnvironmentChange?: (env: string) => void;
   onToggleShadow?: () => void;
   onToggleWireframe?: () => void;
   onExportConfig?: () => void;
+  onSidebarToggle?: (isOpen: boolean) => void;
   currentColor?: string;
   currentEnvironment?: string;
   showShadow?: boolean;
@@ -21,11 +21,11 @@ export default function ControlPanel({
   onFinishChange,
   onPartChange,
   onScreenshot,
-  onCameraPreset,
   onEnvironmentChange,
   onToggleShadow,
   onToggleWireframe,
   onExportConfig,
+  onSidebarToggle,
   currentColor,
   currentEnvironment,
   showShadow,
@@ -33,6 +33,13 @@ export default function ControlPanel({
 }: ControlPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
+  const [finishIndex, setFinishIndex] = useState(0);
+
+  const handleToggle = () => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    onSidebarToggle?.(newState);
+  };
 
   // Function to determine if color is light or dark for text contrast
   const isLightColor = (hexColor: string) => {
@@ -54,11 +61,50 @@ export default function ControlPanel({
     { name: 'Orange', value: '#e67e22' },
   ];
 
+  const finishOptions = [
+    {
+      name: 'Matte',
+      value: 'matte' as const,
+      description: 'Flat, no shine',
+      getGradient: (color: string) => `linear-gradient(135deg, ${color} 0%, ${color} 100%)`
+    },
+    {
+      name: 'Gloss',
+      value: 'gloss' as const,
+      description: 'Shiny, reflective',
+      getGradient: (color: string) => `linear-gradient(135deg, #ffffff 0%, ${color} 50%, ${color}dd 100%)`
+    },
+    {
+      name: 'Metallic',
+      value: 'metallic' as const,
+      description: 'Metal flake',
+      getGradient: (color: string) => `linear-gradient(135deg, ${color}ff 0%, ${color}cc 40%, ${color}88 60%, ${color}cc 100%)`
+    },
+    {
+      name: 'Chrome',
+      value: 'chrome' as const,
+      description: 'Mirror finish',
+      getGradient: (color: string) => `linear-gradient(135deg, #ffffff 0%, ${color}aa 20%, #ffffff 40%, ${color}88 60%, #ffffff 80%, ${color}aa 100%)`
+    }
+  ];
+
+  const handlePrevFinish = () => {
+    const newIndex = (finishIndex - 1 + finishOptions.length) % finishOptions.length;
+    setFinishIndex(newIndex);
+    onFinishChange?.(finishOptions[newIndex].value);
+  };
+
+  const handleNextFinish = () => {
+    const newIndex = (finishIndex + 1) % finishOptions.length;
+    setFinishIndex(newIndex);
+    onFinishChange?.(finishOptions[newIndex].value);
+  };
+
   return (
     <>
       {/* Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className="fixed top-4 right-4 z-50 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors shadow-lg"
       >
         {isOpen ? '✕ Close' : '⚙ Customize'}
@@ -113,78 +159,76 @@ export default function ControlPanel({
                 </div>
 
                 <h3 className="text-lg font-semibold mt-6 mb-4">Finish</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    {
-                      name: 'Matte',
-                      value: 'matte' as const,
-                      description: 'Flat, no shine',
-                      getGradient: (color: string) => `linear-gradient(135deg, ${color} 0%, ${color} 100%)`
-                    },
-                    {
-                      name: 'Gloss',
-                      value: 'gloss' as const,
-                      description: 'Shiny, reflective',
-                      getGradient: (color: string) => `linear-gradient(135deg, #ffffff 0%, ${color} 50%, ${color}dd 100%)`
-                    },
-                    {
-                      name: 'Metallic',
-                      value: 'metallic' as const,
-                      description: 'Metal flake',
-                      getGradient: (color: string) => `linear-gradient(135deg, ${color}ff 0%, ${color}cc 40%, ${color}88 60%, ${color}cc 100%)`
-                    },
-                    {
-                      name: 'Chrome',
-                      value: 'chrome' as const,
-                      description: 'Mirror finish',
-                      getGradient: (color: string) => `linear-gradient(135deg, #ffffff 0%, ${color}aa 20%, #ffffff 40%, ${color}88 60%, #ffffff 80%, ${color}aa 100%)`
-                    }
-                  ].map((finish) => {
-                    const activeColor = currentColor || customColor;
-                    const textColor = isLightColor(activeColor) ? 'text-gray-900' : 'text-white';
-                    return (
-                      <button
-                        key={finish.value}
-                        onClick={() => onFinishChange?.(finish.value)}
-                        className="relative overflow-hidden rounded-lg border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-105 group"
-                      >
-                        <div
-                          className="absolute inset-0 transition-all duration-300"
-                          style={{ background: finish.getGradient(activeColor) }}
-                        />
-                        <div className="relative py-4 px-3 text-center">
-                          <div className={`font-semibold ${textColor} drop-shadow-lg transition-colors duration-300`}>{finish.name}</div>
-                          <div className={`text-xs ${textColor} drop-shadow-md mt-1 transition-colors duration-300`}>{finish.description}</div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Camera Presets */}
-                <h3 className="text-lg font-semibold mt-6 mb-4">Camera Views</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { name: 'Front', value: 'front' },
-                    { name: 'Side', value: 'side' },
-                    { name: 'Rear', value: 'rear' },
-                    { name: 'Top', value: 'top' },
-                  ].map((preset) => (
+                <div className="relative">
+                  {/* Carousel */}
+                  <div className="flex items-center gap-3">
+                    {/* Previous Button */}
                     <button
-                      key={preset.value}
-                      onClick={() => onCameraPreset?.(preset.value)}
-                      className="py-2 px-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-sm"
+                      onClick={handlePrevFinish}
+                      className="flex-shrink-0 w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      aria-label="Previous finish"
                     >
-                      {preset.name}
+                      <span className="text-xl">‹</span>
                     </button>
-                  ))}
+
+                    {/* Current Finish Display */}
+                    <div className="flex-1 relative overflow-hidden rounded-lg border-2 border-gray-700 min-h-[120px]">
+                      {finishOptions.map((finish, index) => {
+                        const activeColor = currentColor || customColor;
+                        const textColor = isLightColor(activeColor) ? 'text-gray-900' : 'text-white';
+                        const isActive = index === finishIndex;
+
+                        return (
+                          <div
+                            key={finish.value}
+                            className={`absolute inset-0 transition-all duration-500 ${
+                              isActive ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
+                            }`}
+                          >
+                            <div
+                              className="absolute inset-0 transition-all duration-300"
+                              style={{ background: finish.getGradient(activeColor) }}
+                            />
+                            <div className="relative h-full flex flex-col items-center justify-center py-6 px-4 text-center">
+                              <div className={`text-2xl font-bold ${textColor} drop-shadow-lg transition-colors duration-300`}>
+                                {finish.name}
+                              </div>
+                              <div className={`text-sm ${textColor} drop-shadow-md mt-2 transition-colors duration-300`}>
+                                {finish.description}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={handleNextFinish}
+                      className="flex-shrink-0 w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      aria-label="Next finish"
+                    >
+                      <span className="text-xl">›</span>
+                    </button>
+                  </div>
+
+                  {/* Dots Indicator */}
+                  <div className="flex justify-center gap-2 mt-4">
+                    {finishOptions.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          setFinishIndex(index);
+                          onFinishChange?.(finishOptions[index].value);
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          index === finishIndex ? 'bg-orange-500 w-6' : 'bg-gray-600 hover:bg-gray-500'
+                        }`}
+                        aria-label={`Go to ${finishOptions[index].name}`}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <button
-                  onClick={() => onCameraPreset?.('default')}
-                  className="w-full mt-2 py-2 px-3 bg-gray-800 rounded-lg hover:bg-orange-600 transition-colors text-sm"
-                >
-                  Reset View
-                </button>
 
                 {/* Environment */}
                 <h3 className="text-lg font-semibold mt-6 mb-4">Environment</h3>

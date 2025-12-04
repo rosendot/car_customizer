@@ -3,6 +3,7 @@ import { OrbitControls, Environment, PerspectiveCamera, Html } from '@react-thre
 import { Suspense, useState, useRef } from 'react';
 import CarModel from './CarModel';
 import ControlPanel from './ControlPanel';
+import CameraControls from './CameraControls';
 
 function LoadingIndicator() {
   return (
@@ -26,6 +27,7 @@ export default function CarViewer() {
   const [showShadow, setShowShadow] = useState(true);
   const [wireframe, setWireframe] = useState(false);
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef<any>(null);
 
@@ -138,10 +140,13 @@ export default function CarViewer() {
       </Canvas>
 
       {/* Logo */}
-      <div className="absolute top-4 left-4 text-white pointer-events-none">
+      <div className="absolute top-4 left-4 text-white pointer-events-none z-30">
         <h1 className="text-2xl font-bold">Car Customizer</h1>
         <p className="text-sm text-gray-400">Phase 1 MVP</p>
       </div>
+
+      {/* Camera Controls - Top Right */}
+      <CameraControls onCameraPreset={handleCameraPreset} sidebarOpen={sidebarOpen} />
 
       {/* Control Panel */}
       <ControlPanel
@@ -149,11 +154,11 @@ export default function CarViewer() {
         onFinishChange={handleFinishChange}
         onPartChange={handlePartChange}
         onScreenshot={handleScreenshot}
-        onCameraPreset={handleCameraPreset}
         onEnvironmentChange={setEnvironment}
         onToggleShadow={() => setShowShadow(!showShadow)}
         onToggleWireframe={() => setWireframe(!wireframe)}
         onExportConfig={handleExportConfig}
+        onSidebarToggle={setSidebarOpen}
         currentColor={carColor}
         currentEnvironment={environment}
         showShadow={showShadow}

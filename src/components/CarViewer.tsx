@@ -26,6 +26,7 @@ export default function CarViewer() {
   const [environment, setEnvironment] = useState<'sunset' | 'dawn' | 'night' | 'warehouse' | 'forest' | 'apartment' | 'studio' | 'city' | 'park'>('city');
   const [showShadow, setShowShadow] = useState(true);
   const [wireframe, setWireframe] = useState(false);
+  const [windowTint, setWindowTint] = useState(0.3); // 0 = clear, 1 = darkest
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -116,7 +117,7 @@ export default function CarViewer() {
 
         {/* Car Model */}
         <Suspense fallback={<LoadingIndicator />}>
-          <CarModel color={carColor} finish={paintFinish} wireframe={wireframe} />
+          <CarModel color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} />
         </Suspense>
 
         {/* Ground plane */}
@@ -157,12 +158,14 @@ export default function CarViewer() {
         onEnvironmentChange={setEnvironment}
         onToggleShadow={() => setShowShadow(!showShadow)}
         onToggleWireframe={() => setWireframe(!wireframe)}
+        onWindowTintChange={setWindowTint}
         onExportConfig={handleExportConfig}
         onSidebarToggle={setSidebarOpen}
         currentColor={carColor}
         currentEnvironment={environment}
         showShadow={showShadow}
         wireframe={wireframe}
+        windowTint={windowTint}
       />
     </div>
   );

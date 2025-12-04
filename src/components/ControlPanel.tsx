@@ -8,12 +8,14 @@ interface ControlPanelProps {
   onEnvironmentChange?: (env: string) => void;
   onToggleShadow?: () => void;
   onToggleWireframe?: () => void;
+  onWindowTintChange?: (tint: number) => void;
   onExportConfig?: () => void;
   onSidebarToggle?: (isOpen: boolean) => void;
   currentColor?: string;
   currentEnvironment?: string;
   showShadow?: boolean;
   wireframe?: boolean;
+  windowTint?: number;
 }
 
 export default function ControlPanel({
@@ -24,12 +26,14 @@ export default function ControlPanel({
   onEnvironmentChange,
   onToggleShadow,
   onToggleWireframe,
+  onWindowTintChange,
   onExportConfig,
   onSidebarToggle,
   currentColor,
   currentEnvironment,
   showShadow,
-  wireframe
+  wireframe,
+  windowTint
 }: ControlPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
@@ -247,6 +251,41 @@ export default function ControlPanel({
                   <option value="city">City</option>
                   <option value="park">Park</option>
                 </select>
+
+                {/* Window Tint */}
+                <h3 className="text-lg font-semibold mt-6 mb-4">Window Tint</h3>
+                <div className="space-y-3">
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={windowTint}
+                    onChange={(e) => onWindowTintChange?.(parseFloat(e.target.value))}
+                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
+                  />
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>Clear</span>
+                    <span className="text-white font-semibold">{Math.round((windowTint || 0) * 100)}%</span>
+                    <span>Dark</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[
+                      { label: 'Clear', value: 0 },
+                      { label: 'Light', value: 0.35 },
+                      { label: 'Medium', value: 0.65 },
+                      { label: 'Dark', value: 0.9 }
+                    ].map((preset) => (
+                      <button
+                        key={preset.label}
+                        onClick={() => onWindowTintChange?.(preset.value)}
+                        className="py-2 px-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-xs"
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* View Options */}
                 <h3 className="text-lg font-semibold mt-6 mb-4">View Options</h3>

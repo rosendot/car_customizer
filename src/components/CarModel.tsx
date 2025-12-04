@@ -7,10 +7,11 @@ interface CarModelProps {
   color?: string;
   finish?: 'matte' | 'gloss' | 'metallic' | 'chrome';
   wireframe?: boolean;
+  windowTint?: number;
 }
 
 // Load the Ford Fusion 3D model
-export default function CarModel({ color = '#e74c3c', finish = 'gloss', wireframe = false }: CarModelProps) {
+export default function CarModel({ color = '#e74c3c', finish = 'gloss', wireframe = false, windowTint = 0.3 }: CarModelProps) {
   const groupRef = useRef<Group>(null);
   const { scene } = useGLTF('/models/cars/ford-fusion.glb');
 
@@ -50,8 +51,18 @@ export default function CarModel({ color = '#e74c3c', finish = 'gloss', wirefram
 
           if (!originalColor) return;
 
-          // Skip transparent parts (windows, lights)
-          if (originalOpacity < 0.9) return;
+          // Handle transparent parts (windows) - apply tint
+          if (originalOpacity < 0.9) {
+            // This is a window - apply tint with much more dramatic effect
+            // At 0 tint: keep original opacity (~0.3-0.5)
+            // At 100% tint: nearly opaque black (~0.95)
+            const tintedOpacity = originalOpacity + (windowTint * (0.95 - originalOpacity));
+            mat.opacity = tintedOpacity;
+            mat.color = new Color(0, 0, 0);
+            mat.transparent = true;
+            mat.needsUpdate = true;
+            return;
+          }
 
           // Skip very dark parts (tires, rubber)
           const isDark = originalColor.r < 0.15 && originalColor.g < 0.15 && originalColor.b < 0.15;
@@ -65,14 +76,14 @@ export default function CarModel({ color = '#e74c3c', finish = 'gloss', wirefram
           mat.color = new Color(color);
           mat.metalness = props.metalness;
           mat.roughness = props.roughness;
-          mat.clearcoat = props.clearcoat;
-          mat.clearcoatRoughness = props.clearcoatRoughness;
+          (mat as any).clearcoat = props.clearcoat;
+          (mat as any).clearcoatRoughness = props.clearcoatRoughness;
           mat.wireframe = wireframe;
           mat.needsUpdate = true;
         }
       });
     }
-  }, [scene, color, finish, wireframe]);
+  }, [scene, color, finish, wireframe, windowTint]);
 
   // Optional: Add subtle hover effect
   useFrame((state) => {

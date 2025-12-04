@@ -42,7 +42,6 @@ export default function ControlPanel({
     { name: 'Yellow', value: '#f1c40f' },
     { name: 'Green', value: '#2ecc71' },
     { name: 'Orange', value: '#e67e22' },
-    { name: 'Purple', value: '#9b59b6' },
   ];
 
   return (
@@ -82,6 +81,25 @@ export default function ControlPanel({
                       title={color.name}
                     />
                   ))}
+                  {/* Custom Color Picker as last square */}
+                  <div className="relative aspect-square rounded-lg border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-110 overflow-hidden">
+                    <input
+                      type="color"
+                      value={customColor}
+                      onChange={(e) => {
+                        setCustomColor(e.target.value);
+                        onColorChange?.(e.target.value);
+                      }}
+                      className="absolute inset-0 w-full h-full cursor-pointer opacity-0"
+                      title="Custom Color"
+                    />
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: 'conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)'
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <h3 className="text-lg font-semibold mt-6 mb-4">Finish</h3>
@@ -100,30 +118,6 @@ export default function ControlPanel({
                       {finish.name}
                     </button>
                   ))}
-                </div>
-
-                {/* Custom Color Picker */}
-                <h3 className="text-lg font-semibold mt-6 mb-4">Custom Color</h3>
-                <div className="flex gap-2">
-                  <input
-                    type="color"
-                    value={customColor}
-                    onChange={(e) => {
-                      setCustomColor(e.target.value);
-                      onColorChange?.(e.target.value);
-                    }}
-                    className="w-16 h-12 rounded-lg cursor-pointer border-2 border-gray-700"
-                  />
-                  <input
-                    type="text"
-                    value={customColor}
-                    onChange={(e) => {
-                      setCustomColor(e.target.value);
-                      onColorChange?.(e.target.value);
-                    }}
-                    className="flex-1 px-3 py-2 bg-gray-800 rounded-lg border-2 border-gray-700 focus:border-orange-500 outline-none font-mono text-sm"
-                    placeholder="#e74c3c"
-                  />
                 </div>
 
                 {/* Camera Presets */}

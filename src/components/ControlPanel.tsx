@@ -4,16 +4,28 @@ interface ControlPanelProps {
   onColorChange?: (color: string) => void;
   onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
   onWindowTintChange?: (tint: number) => void;
+  onRotationSpeedChange?: (speed: number) => void;
+  onBrightnessChange?: (brightness: number) => void;
+  onShadowIntensityChange?: (intensity: number) => void;
   currentColor?: string;
   windowTint?: number;
+  rotationSpeed?: number;
+  brightness?: number;
+  shadowIntensity?: number;
 }
 
 export default function ControlPanel({
   onColorChange,
   onFinishChange,
   onWindowTintChange,
+  onRotationSpeedChange,
+  onBrightnessChange,
+  onShadowIntensityChange,
   currentColor,
-  windowTint
+  windowTint,
+  rotationSpeed = 0.5,
+  brightness = 1.5,
+  shadowIntensity = 0.3
 }: ControlPanelProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
@@ -315,6 +327,69 @@ export default function ControlPanel({
                     ))}
                   </div>
                 </div>
+                </div>
+
+                {/* Rotation Speed Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-4">Rotation Speed</h3>
+                  <div className="space-y-3">
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={rotationSpeed}
+                      onChange={(e) => onRotationSpeedChange?.(parseFloat(e.target.value))}
+                      className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Slow</span>
+                      <span className="text-white font-semibold">{Math.round(rotationSpeed * 100)}%</span>
+                      <span>Fast</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Brightness Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-4">Brightness</h3>
+                  <div className="space-y-3">
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="3"
+                      step="0.1"
+                      value={brightness}
+                      onChange={(e) => onBrightnessChange?.(parseFloat(e.target.value))}
+                      className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Dim</span>
+                      <span className="text-white font-semibold">{brightness.toFixed(1)}x</span>
+                      <span>Bright</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Shadow Intensity Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-4">Shadow Intensity</h3>
+                  <div className="space-y-3">
+                    <input
+                      type="range"
+                      min="0"
+                      max="0.8"
+                      step="0.05"
+                      value={shadowIntensity}
+                      onChange={(e) => onShadowIntensityChange?.(parseFloat(e.target.value))}
+                      className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Light</span>
+                      <span className="text-white font-semibold">{Math.round(shadowIntensity * 100)}%</span>
+                      <span>Dark</span>
+                    </div>
+                  </div>
                 </div>
 
               </div>

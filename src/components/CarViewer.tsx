@@ -26,6 +26,9 @@ export default function CarViewer() {
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
   const [autoSpin, setAutoSpin] = useState(true);
   const [resetKey, setResetKey] = useState(0);
+  const [rotationSpeed, setRotationSpeed] = useState(0.5);
+  const [brightness, setBrightness] = useState(1.5);
+  const [shadowIntensity, setShadowIntensity] = useState(0.3);
   const controlsRef = useRef<any>(null);
 
   const handleColorChange = (color: string) => {
@@ -64,10 +67,10 @@ export default function CarViewer() {
         <PerspectiveCamera makeDefault position={cameraPosition} fov={50} />
 
         {/* Lighting Setup */}
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={0.4 * brightness} />
         <directionalLight
           position={[10, 10, 5]}
-          intensity={1.5}
+          intensity={brightness}
           castShadow
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}
@@ -76,7 +79,7 @@ export default function CarViewer() {
           position={[-5, 5, 0]}
           angle={0.3}
           penumbra={1}
-          intensity={0.5}
+          intensity={0.5 * brightness}
           castShadow
         />
 
@@ -85,14 +88,14 @@ export default function CarViewer() {
 
         {/* Car Model */}
         <Suspense fallback={<LoadingIndicator />}>
-          <CarModel key={resetKey} color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} autoSpin={autoSpin} />
+          <CarModel key={resetKey} color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} autoSpin={autoSpin} rotationSpeed={rotationSpeed} />
         </Suspense>
 
         {/* Ground plane */}
         {showShadow && (
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
             <planeGeometry args={[50, 50]} />
-            <shadowMaterial opacity={0.3} />
+            <shadowMaterial opacity={shadowIntensity} />
           </mesh>
         )}
 
@@ -123,8 +126,14 @@ export default function CarViewer() {
         onColorChange={handleColorChange}
         onFinishChange={handleFinishChange}
         onWindowTintChange={setWindowTint}
+        onRotationSpeedChange={setRotationSpeed}
+        onBrightnessChange={setBrightness}
+        onShadowIntensityChange={setShadowIntensity}
         currentColor={carColor}
         windowTint={windowTint}
+        rotationSpeed={rotationSpeed}
+        brightness={brightness}
+        shadowIntensity={shadowIntensity}
       />
     </div>
   );

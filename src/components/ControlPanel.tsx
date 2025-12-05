@@ -147,36 +147,95 @@ export default function ControlPanel({
                     {/* Previous Button */}
                     <button
                       onClick={handlePrevFinish}
-                      className="flex-shrink-0 w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="flex-shrink-0 w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center z-10"
                       aria-label="Previous finish"
                     >
                       <span className="text-xl">‹</span>
                     </button>
 
-                    {/* Current Finish Display */}
-                    <div className="flex-1 relative overflow-hidden rounded-lg border-2 border-gray-700 min-h-[120px]">
+                    {/* Circular Carousel Display */}
+                    <div className="flex-1 relative h-[140px] flex items-center justify-center" style={{ perspective: '1000px' }}>
                       {finishOptions.map((finish, index) => {
                         const activeColor = currentColor || customColor;
                         const textColor = isLightColor(activeColor) ? 'text-gray-900' : 'text-white';
-                        const isActive = index === finishIndex;
+
+                        // Calculate position relative to current index
+                        const diff = (index - finishIndex + finishOptions.length) % finishOptions.length;
+                        const adjustedDiff = diff > finishOptions.length / 2 ? diff - finishOptions.length : diff;
+
+                        // Determine if this card should be visible
+                        const isCenter = adjustedDiff === 0;
+                        const isPrev = adjustedDiff === -1;
+                        const isNext = adjustedDiff === 1;
+                        const isVisible = isCenter || isPrev || isNext;
+
+                        // Calculate styles based on position
+                        let transform = 'translateX(-50%)';
+                        let zIndex = 0;
+                        let opacity = 0;
+                        let scale = 0.7;
+
+                        if (isCenter) {
+                          transform = 'translateX(-50%) translateZ(0px) scale(1)';
+                          zIndex = 30;
+                          opacity = 1;
+                          scale = 1;
+                        } else if (isPrev) {
+                          transform = 'translateX(-120%) translateZ(-100px) scale(0.75)';
+                          zIndex = 10;
+                          opacity = 0.5;
+                          scale = 0.75;
+                        } else if (isNext) {
+                          transform = 'translateX(20%) translateZ(-100px) scale(0.75)';
+                          zIndex = 10;
+                          opacity = 0.5;
+                          scale = 0.75;
+                        }
 
                         return (
                           <div
                             key={finish.value}
-                            className={`absolute inset-0 transition-all duration-500 ${
-                              isActive ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
+                            className={`absolute left-1/2 transition-all duration-500 ease-out ${
+                              isVisible ? 'pointer-events-auto' : 'pointer-events-none'
                             }`}
+                            style={{
+                              transform,
+                              zIndex,
+                              opacity,
+                              width: '100%',
+                            }}
                           >
                             <div
-                              className="absolute inset-0 transition-all duration-300"
-                              style={{ background: finish.getGradient(activeColor) }}
-                            />
-                            <div className="relative h-full flex flex-col items-center justify-center py-6 px-4 text-center">
-                              <div className={`text-2xl font-bold ${textColor} drop-shadow-lg transition-colors duration-300`}>
-                                {finish.name}
-                              </div>
-                              <div className={`text-sm ${textColor} drop-shadow-md mt-2 transition-colors duration-300`}>
-                                {finish.description}
+                              className="rounded-lg border-2 overflow-hidden transition-all duration-300"
+                              style={{
+                                borderColor: isCenter ? '#6b7280' : '#374151',
+                                transform: `scale(${scale})`,
+                              }}
+                            >
+                              <div
+                                className="transition-all duration-300 min-h-[120px]"
+                                style={{ background: finish.getGradient(activeColor) }}
+                              >
+                                <div className="relative h-full flex flex-col items-center justify-center py-6 px-4 text-center">
+                                  <div
+                                    className={`font-bold drop-shadow-lg transition-all duration-300`}
+                                    style={{
+                                      fontSize: isCenter ? '1.5rem' : '1.25rem',
+                                      color: textColor === 'text-gray-900' ? '#1a1a1a' : '#ffffff',
+                                    }}
+                                  >
+                                    {finish.name}
+                                  </div>
+                                  <div
+                                    className={`drop-shadow-md mt-2 transition-all duration-300`}
+                                    style={{
+                                      fontSize: isCenter ? '0.875rem' : '0.75rem',
+                                      color: textColor === 'text-gray-900' ? '#1a1a1a' : '#ffffff',
+                                    }}
+                                  >
+                                    {finish.description}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -187,7 +246,7 @@ export default function ControlPanel({
                     {/* Next Button */}
                     <button
                       onClick={handleNextFinish}
-                      className="flex-shrink-0 w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="flex-shrink-0 w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center z-10"
                       aria-label="Next finish"
                     >
                       <span className="text-xl">›</span>

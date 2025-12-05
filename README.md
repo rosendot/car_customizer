@@ -1,294 +1,109 @@
-# 3D Product Configurator - Demo Portfolio
+# 3D Product Configurator
 
-**Interactive 3D configurator built with React Three Fiber demonstrating real-time customization capabilities. This technology can be adapted for ANY product: furniture, fashion, industrial equipment, jewelry, and more.**
+**Interactive 3D configurator built with React Three Fiber. This technology can be adapted for ANY product: furniture, fashion, industrial equipment, jewelry, and more.**
 
----
+## 🚀 Quick Start
 
-## 🎯 What This Demonstrates
-
-This car configurator showcases the core technology needed for e-commerce 3D product customization:
-1. **Real-time Material Changes** - Instant color and finish updates at 60fps
-2. **Smart Material Detection** - Automatically preserves windows, tires, and chrome parts
-3. **Professional Rendering** - HDR environment lighting with realistic shadows
-4. **Auto-Hide Camera Controls** - Preset views with auto-spin and wireframe modes
-5. **Advanced Features** - Window tinting system with intelligent light detection
-6. **Screenshot Capture** - Download customization images
-7. **Production-Ready UI** - Clean, responsive interface with organized controls
-
-### Why This Matters for Clients
-> The same system that handles a complex car model with 100+ parts can easily handle simpler products like sofas, backpacks, jewelry, or industrial equipment. This is a streamlined demo focused on core customization features.
-
----
-
-## 🚀 Current Status: Production-Ready Demo ✓
-
-**Development server running at: http://localhost:4322**
-
-### Features Implemented ✓
-
-**Core Customization:**
-- ✅ **Real-time Color System**: 7 preset colors + custom color picker with rainbow gradient indicator
-- ✅ **Material Finishes Carousel**: Interactive carousel with 4 finishes (Matte, Gloss, Metallic, Chrome)
-  - Dynamic gradient previews that adapt to current car color
-  - Auto-adjusting text color for optimal readability
-  - Smooth slide animations with dot indicators
-- ✅ **Smart Material Detection**: Automatically preserves specific parts (windows, tires, chrome)
-
-**Camera & Views:**
-- ✅ **Auto-Hide Camera Controls**: Horizontal bar at top center that slides out on mouse hover
-  - Front, Side, Rear, Top preset views with directional arrows
-  - Reset button for default view
-  - Auto-spin toggle button (orange when active)
-  - Wireframe mode toggle button
-- ✅ **Auto-Spin Feature**: Car rotates automatically by default, toggle on/off via camera controls
-- ✅ **Interactive Controls**: Orbit, pan, zoom with smooth damping
-
-**Advanced Features:**
-- ✅ **Interactive Sliders**: All sliders feature reset functionality
-  - Ctrl+Click on slider titles to reset to default center values
-  - Hover tooltips indicate reset capability with blue highlight
-  - Smooth transitions and visual feedback
-- ✅ **Window Tint System**: Adjustable window darkness (0-100%) with slider and presets
-- ✅ **Rotation Speed Control**: Adjustable auto-spin speed (0-100%)
-- ✅ **Brightness Control**: Scene brightness adjustment (0-3x multiplier)
-- ✅ **Camera Zoom/FOV**: Field of view control (0-100°)
-- ✅ **Wireframe Mode**: Toggle via camera controls to view mesh geometry
-- ✅ **Screenshot Download**: Capture customizations as PNG
-- ✅ **Loading State**: Professional loading indicator
-- ✅ **60fps Performance**: Smooth rendering on all devices
-- ✅ **Clean White Background**: Professional presentation on white canvas
-
-### Live Demo Instructions
-1. Visit http://localhost:4322
-2. The car will auto-spin on load - move mouse to top of screen to reveal camera controls
-3. Move mouse to right edge to reveal customization panel
-4. **Try the features:**
-   - **Color Selection**: Click any color swatch or the rainbow gradient square for custom colors
-   - **Finish Carousel**: Use arrow buttons or dots to cycle through finishes (watch them preview in your car's color!)
-   - **Camera Controls**: Move mouse to top edge to reveal auto-hide controls
-     - 7 buttons: Front, Side, Rear, Top, Reset, Auto-Spin toggle, and Wireframe toggle
-     - Orange button = feature active, gray = feature off
-   - **Interactive Sliders**: Ctrl+Click any slider title to reset to default (hover to see blue highlight and tooltip)
-     - Window Tint (0-100%, resets to 50%)
-     - Rotation Speed (0-100%, resets to 50%)
-     - Brightness (0-3x, resets to 1.5x)
-     - Camera Zoom (0-100°, resets to 50°)
-5. **Interact with 3D scene:**
-   - **Left-click drag**: Rotate camera
-   - **Right-click drag**: Pan view
-   - **Mouse wheel**: Scroll to zoom in/out (FOV adjustment)
-
----
-
-## 📁 Current Project Structure
-
-```
-car-customizer/
-├── src/
-│   ├── components/
-│   │   ├── CarViewer.tsx          # Main 3D canvas + state management
-│   │   ├── CarModel.tsx            # Car model with dynamic paint system
-│   │   ├── ControlPanel.tsx        # UI sidebar with carousel finish selector
-│   │   └── CameraControls.tsx      # Floating camera preset controls
-│   ├── lib/
-│   │   ├── carConfig.ts            # Car configurations
-│   │   ├── parts.ts                # Parts catalog
-│   │   └── materials.ts            # Paint/material system
-│   ├── pages/
-│   │   └── index.astro             # Main page
-│   └── styles/
-│       └── global.css
-└── public/
-    └── models/
-        └── cars/
-            └── ford-fusion.glb     # 2010 Ford Fusion model (3.1MB)
-```
-
----
-
-## 🛠️ Tech Stack
-
-### Currently Installed
-- **Astro 4.16** - Static site generator
-- **React 18.3** - UI components
-- **Three.js 0.170** - 3D engine
-- **React Three Fiber 8.17** - React renderer for Three.js
-- **React Three Drei 9.117** - Three.js helpers
-- **Tailwind CSS 3.4** - Styling
-- **TypeScript 5.7** - Type safety
-
-### Commands
 ```bash
 npm run dev      # Start dev server (http://localhost:4321)
 npm run build    # Build for production
 npm run preview  # Preview production build
 ```
 
----
+## ✨ Features
 
-## 💼 For Potential Clients
+**Customization:**
+- Real-time color system (7 presets + custom picker)
+- Material finishes carousel (Matte, Gloss, Metallic, Chrome)
+- Window tinting with presets
+- Smart material detection (preserves windows, tires, chrome)
 
-### What This Technology Can Do For Your Business
+**Controls:**
+- Auto-hide camera controls (Front, Side, Rear, Top views)
+- Interactive sliders with Ctrl+Click reset
+- Adjustable rotation speed, brightness, and zoom (0-100 range)
+- Auto-spin toggle and wireframe mode
 
-**This demo uses a car, but the same system works for:**
+**UX:**
+- 60fps performance
+- Professional loading indicator
+- Clean white background
+- Smooth transitions throughout
 
-#### E-Commerce Products
-- **Furniture**: Sofas, chairs, tables (change fabric, wood finish, size)
-- **Fashion**: Bags, shoes, apparel (colors, materials, custom logos)
-- **Jewelry**: Rings, watches, necklaces (metal type, gemstones, engraving)
-- **Home Decor**: Lighting, rugs, wall art (colors, materials, patterns)
+## 🎮 Usage
 
-#### Industrial/B2B
-- **Machinery**: Equipment configurators with part options
-- **Architecture**: Material selectors for building components
-- **Manufacturing**: Product variants with real-time pricing
+1. **Move mouse to right edge** → Customization panel appears
+2. **Move mouse to top edge** → Camera controls appear
+3. **Ctrl+Click slider titles** → Reset to default (hover shows blue highlight)
+4. **Left-drag** → Rotate | **Right-drag** → Pan | **Scroll** → Zoom
 
-### Typical Project Scope
+## 🛠️ Tech Stack
 
-**Basic Configurator** ($1,500 - $2,500)
-- Load your 3D model
-- 5-10 color options
-- 2-3 material finishes
-- Screenshot feature
-- Embed code for website
+- Astro 4.16 + React 18.3
+- Three.js 0.170 + React Three Fiber 8.17
+- React Three Drei 9.117
+- Tailwind CSS 3.4
+- TypeScript 5.7
 
-**Advanced Configurator** ($3,000 - $7,000)
-- Multiple product models
-- Part swapping system
-- Custom texture upload
-- Multiple camera angles
-- Integration with cart/checkout
-- Admin panel for product management
+## 📁 Project Structure
 
-**Enterprise Solution** ($10,000+)
-- Full product catalog
-- AR/WebXR mode
-- Real-time pricing
-- CRM integration
-- Custom animations
-- White-label solution
+```
+src/
+├── components/
+│   ├── CarViewer.tsx       # Main 3D canvas + state
+│   ├── CarModel.tsx         # Model with paint system
+│   ├── ControlPanel.tsx     # Customization UI
+│   └── CameraControls.tsx   # Camera presets
+└── styles/
+    └── global.css
+```
+
+## 💼 For Clients
+
+**This car demo showcases technology that works for:**
+
+- **E-Commerce**: Furniture, fashion, jewelry, home decor
+- **B2B**: Machinery, architecture, manufacturing equipment
+- **Custom Products**: Anything requiring visual customization
+
+### Pricing Examples
+
+- **Basic** ($1,500-$2,500): 5-10 colors, 2-3 finishes, screenshot feature
+- **Advanced** ($3,000-$7,000): Multi-product, part swapping, cart integration
+- **Enterprise** ($10,000+): Full catalog, AR mode, CRM integration
 
 ## 🎨 Technical Highlights
 
-### Smart Material System
-The configurator uses intelligent material detection to automatically identify and preserve specific parts:
-- **Transparent parts**: Windows, lights (opacity < 0.9)
-- **Dark materials**: Tires, rubber trim (RGB < 0.15)
-- **Bright materials**: Chrome, reflectors (RGB > 0.9)
+**Smart Material System**
+- Auto-detects transparent parts (windows), dark materials (tires), bright materials (chrome)
+- Applies paint only to car body without manual masking
 
-This means when you change the paint color, it only affects the body - no manual masking required.
+**Interactive Sliders**
+- Ctrl+Click titles to reset to center values (50% for most, 1.5x for brightness)
+- Blue hover highlight with tooltips
+- All ranges: 0-100% or 0-3x for clean UX
 
-### Interactive Finish Carousel
-The finish selector features a sophisticated preview system:
-- **Dynamic gradients**: Each finish generates CSS gradients based on current car color
-- **Adaptive text**: Text color automatically adjusts (dark/light) based on background brightness using luminance calculation
-- **Smooth animations**: 500ms slide transitions with opacity fading
-- **Visual feedback**: Dot indicators show current position with expanding active state
+**Performance**
+- 60fps target with optimized rendering
+- Lazy loading with loading states
+- Efficient material updates
 
-### Auto-Spin System
-The configurator features a smooth auto-rotation system:
-- **Default enabled**: Car spins automatically on load at 0.005 rad/frame (~30° per second)
-- **Toggle control**: Auto-hide button in top camera bar (orange = spinning, gray = stopped)
-- **Smooth animation**: Uses requestAnimationFrame for consistent 60fps rotation
-- **Combined effects**: Auto-spin rotation + subtle bounce effect (0.05 units vertical sine wave)
+## 🚀 Deploy
 
-### Interactive Slider System
-Advanced slider controls with reset functionality:
-- **Ctrl+Click Reset**: All slider titles support Ctrl+Click to reset to center/default values
-- **Visual Feedback**: Titles show blue highlight on hover indicating interactivity
-- **Tooltips**: Hover tooltips display reset value for each slider
-- **Centered Defaults**: All sliders reset to middle values for balanced customization
-- **Smooth Transitions**: Color transitions on hover with pointer cursor feedback
-
-### Window Tint System
-Advanced window tinting with intelligent material detection:
-- **Smart targeting**: Only affects transparent glass parts (opacity < 0.9)
-- **Light exclusion**: Automatically excludes headlights, taillights, and turn signals using RGB detection
-- **Full range**: 0-100% opacity control with slider
-- **UI controls**: Slider (0-100%) + 4 preset buttons (Clear, Light, Medium, Dark)
-- **Ctrl+Click reset**: Reset to 50% default value
-
-### Performance Optimizations
-- **60fps target**: Optimized rendering pipeline with auto-spin at 0.005 rad/frame
-- **Lazy loading**: 3D model loads on demand with loading state
-- **Efficient updates**: Materials update without reloading geometry
-- **Shadow optimization**: Balanced quality and performance
-- **Auto-hide UI**: Camera controls appear only on mouse proximity to reduce visual clutter
-
-### Material Properties
-Each finish uses specific Three.js material properties:
-- **Matte**: Low metalness (0.1), high roughness (0.8), no clearcoat
-- **Gloss**: Medium metalness (0.3), low roughness (0.2), clearcoat (1.0) enabled
-- **Metallic**: High metalness (0.9), medium roughness (0.3), subtle shimmer effect
-- **Chrome**: Max metalness (1.0), minimal roughness (0.1), mirror-like reflections
-
----
-
-## 🚀 Deployment
-
-### Quick Deploy to Vercel
 ```bash
 npm run build
 vercel --prod
 ```
 
-### Environment Requirements
-- Node.js 18+
-- Modern browser with WebGL support
-- Recommended: GPU for optimal performance
-
----
-
-## 📞 Contact & Licensing
-
-This is a portfolio demonstration project. The underlying technology and approach can be adapted for client projects.
-
----
-
-## 🗺️ Future Enhancements (Available for Client Projects)
-
-These features can be added based on client needs:
-
-**Product Catalog Management**
-- Multiple product models with variations
-- Admin panel for adding/editing products
-- Dynamic pricing based on options
-
-**Advanced Customization**
-- Part swapping system (swap wheels, add spoilers, etc.)
-- Custom texture/image upload
-- Text/logo placement on products
-- Pattern/wrap generators
-
-**E-Commerce Integration**
-- Shopify/WooCommerce plugins
-- Add to cart with configuration data
-- Printful/print-on-demand integration
-- Real-time pricing calculator
-
-**Enhanced UX**
-- AR/WebXR mode (view in your space)
-- Social sharing with preview images
-- URL-based build sharing
-- Save/load configurations
-- Environment selector for different lighting scenes
-
-**Enterprise Features**
-- Multi-tenant system
-- API for external integrations
-- Analytics dashboard
-- A/B testing framework
-- CDN optimization for global delivery
-
----
+Requires Node.js 18+ and WebGL-compatible browser.
 
 ## 📚 Resources
 
-### Learning 3D on Web
-- Three.js docs: https://threejs.org/docs/
-- React Three Fiber: https://docs.pmnd.rs/react-three-fiber/
-- Drei helpers: https://github.com/pmndrs/drei
+- [Three.js Docs](https://threejs.org/docs/)
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/)
+- [Drei Helpers](https://github.com/pmndrs/drei)
+- [Blender](https://www.blender.org/) (free 3D modeling)
 
-### 3D Model Tools
-- Blender: https://www.blender.org/ (free 3D software)
-- Sketchfab: https://sketchfab.com (model marketplace)
+---
+
+*Portfolio demonstration project. Technology adaptable for client needs.*

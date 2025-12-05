@@ -44,28 +44,39 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
 - ✅ **Interactive Controls**: Orbit, pan, zoom with smooth damping
 
 **Advanced Features:**
-- ✅ **Window Tint System**: Adjustable window darkness with slider and presets (Clear, Light, Medium, Dark)
+- ✅ **Interactive Sliders**: All sliders feature reset functionality
+  - Ctrl+Click on slider titles to reset to default center values
+  - Hover tooltips indicate reset capability with blue highlight
+  - Smooth transitions and visual feedback
+- ✅ **Window Tint System**: Adjustable window darkness (0-100%) with slider and presets
+- ✅ **Rotation Speed Control**: Adjustable auto-spin speed (0-100%)
+- ✅ **Brightness Control**: Scene brightness adjustment (0-3x multiplier)
+- ✅ **Camera Zoom/FOV**: Field of view control (0-100°)
 - ✅ **Wireframe Mode**: Toggle via camera controls to view mesh geometry
 - ✅ **Screenshot Download**: Capture customizations as PNG
 - ✅ **Loading State**: Professional loading indicator
 - ✅ **60fps Performance**: Smooth rendering on all devices
+- ✅ **Clean White Background**: Professional presentation on white canvas
 
 ### Live Demo Instructions
 1. Visit http://localhost:4322
 2. The car will auto-spin on load - move mouse to top of screen to reveal camera controls
-3. Click **⚙ Customize** button (top right) to open customization panel
+3. Move mouse to right edge to reveal customization panel
 4. **Try the features:**
    - **Color Selection**: Click any color swatch or the rainbow gradient square for custom colors
    - **Finish Carousel**: Use arrow buttons or dots to cycle through finishes (watch them preview in your car's color!)
    - **Camera Controls**: Move mouse to top edge to reveal auto-hide controls
      - 7 buttons: Front, Side, Rear, Top, Reset, Auto-Spin toggle, and Wireframe toggle
      - Orange button = feature active, gray = feature off
-   - **Window Tint**: Use slider or preset buttons (Clear, Light, Medium, Dark)
-   - Click **📸 Screenshot** to download image
+   - **Interactive Sliders**: Ctrl+Click any slider title to reset to default (hover to see blue highlight and tooltip)
+     - Window Tint (0-100%, resets to 50%)
+     - Rotation Speed (0-100%, resets to 50%)
+     - Brightness (0-3x, resets to 1.5x)
+     - Camera Zoom (0-100°, resets to 50°)
 5. **Interact with 3D scene:**
    - **Left-click drag**: Rotate camera
    - **Right-click drag**: Pan view
-   - **Scroll wheel**: Zoom in/out
+   - **Mouse wheel**: Scroll to zoom in/out (FOV adjustment)
 
 ---
 
@@ -181,13 +192,21 @@ The configurator features a smooth auto-rotation system:
 - **Smooth animation**: Uses requestAnimationFrame for consistent 60fps rotation
 - **Combined effects**: Auto-spin rotation + subtle bounce effect (0.05 units vertical sine wave)
 
+### Interactive Slider System
+Advanced slider controls with reset functionality:
+- **Ctrl+Click Reset**: All slider titles support Ctrl+Click to reset to center/default values
+- **Visual Feedback**: Titles show blue highlight on hover indicating interactivity
+- **Tooltips**: Hover tooltips display reset value for each slider
+- **Centered Defaults**: All sliders reset to middle values for balanced customization
+- **Smooth Transitions**: Color transitions on hover with pointer cursor feedback
+
 ### Window Tint System
 Advanced window tinting with intelligent material detection:
 - **Smart targeting**: Only affects transparent glass parts (opacity < 0.9)
 - **Light exclusion**: Automatically excludes headlights, taillights, and turn signals using RGB detection
-- **Dramatic range**: From 30% opacity (clear) to 95% opacity (limo tint)
-- **Formula**: `tintedOpacity = originalOpacity + (windowTint * (0.95 - originalOpacity))`
-- **UI controls**: Slider (0-100%) + 4 preset buttons
+- **Full range**: 0-100% opacity control with slider
+- **UI controls**: Slider (0-100%) + 4 preset buttons (Clear, Light, Medium, Dark)
+- **Ctrl+Click reset**: Reset to 50% default value
 
 ### Performance Optimizations
 - **60fps target**: Optimized rendering pipeline with auto-spin at 0.005 rad/frame

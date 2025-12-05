@@ -108,11 +108,6 @@ export default function CarViewer() {
         />
       </Canvas>
 
-      {/* Logo */}
-      <div className="absolute top-4 left-4 text-white pointer-events-none z-30">
-        <h1 className="text-2xl font-bold">Car Customizer</h1>
-        <p className="text-sm text-gray-400">Phase 1 MVP</p>
-      </div>
 
       {/* Camera Controls - Auto-hiding top center */}
       <CameraControls

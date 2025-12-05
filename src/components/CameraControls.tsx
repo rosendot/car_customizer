@@ -27,62 +27,80 @@ export default function CameraControls({ onCameraPreset, autoSpin, onToggleAutoS
   }, []);
 
   return (
-    <div className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 flex gap-2 ${
-      isVisible ? 'top-4' : '-top-20'
+    <div className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 ${
+      isVisible ? 'top-6' : '-top-24'
     }`}>
-      <button
-        onClick={() => onCameraPreset?.('front')}
-        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
-        title="Front View"
-      >
-        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">FRONT</span>
-      </button>
-      <button
-        onClick={() => onCameraPreset?.('side')}
-        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
-        title="Side View"
-      >
-        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">SIDE</span>
-      </button>
-      <button
-        onClick={() => onCameraPreset?.('rear')}
-        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
-        title="Rear View"
-      >
-        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">REAR</span>
-      </button>
-      <button
-        onClick={() => onCameraPreset?.('top')}
-        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
-        title="Top View"
-      >
-        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">TOP</span>
-      </button>
-      <button
-        onClick={() => onCameraPreset?.('default')}
-        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
-        title="Reset View"
-      >
-        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">RESET</span>
-      </button>
-      <button
-        onClick={onToggleAutoSpin}
-        className={`px-4 h-12 rounded-lg transition-colors flex items-center justify-center group ${
-          autoSpin ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-orange-600'
-        }`}
-        title={autoSpin ? "Stop Auto-Spin" : "Start Auto-Spin"}
-      >
-        <span className="text-sm font-semibold text-white">SPIN</span>
-      </button>
-      <button
-        onClick={onToggleWireframe}
-        className={`px-4 h-12 rounded-lg transition-colors flex items-center justify-center group ${
-          wireframe ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-orange-600'
-        }`}
-        title={wireframe ? "Disable Wireframe" : "Enable Wireframe"}
-      >
-        <span className="text-sm font-semibold text-white">WIRE</span>
-      </button>
+      <div className="bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-2xl px-4 py-3 border border-gray-800">
+        <div className="flex gap-3">
+          {/* View Controls */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => onCameraPreset?.('front')}
+              className="px-4 h-11 bg-gray-800/80 hover:bg-orange-600 rounded-xl transition-all flex items-center justify-center group shadow-lg hover:shadow-orange-600/50"
+              title="Front View"
+            >
+              <span className="text-sm font-semibold text-gray-300 group-hover:text-white">FRONT</span>
+            </button>
+            <button
+              onClick={() => onCameraPreset?.('side')}
+              className="px-4 h-11 bg-gray-800/80 hover:bg-orange-600 rounded-xl transition-all flex items-center justify-center group shadow-lg hover:shadow-orange-600/50"
+              title="Side View"
+            >
+              <span className="text-sm font-semibold text-gray-300 group-hover:text-white">SIDE</span>
+            </button>
+            <button
+              onClick={() => onCameraPreset?.('rear')}
+              className="px-4 h-11 bg-gray-800/80 hover:bg-orange-600 rounded-xl transition-all flex items-center justify-center group shadow-lg hover:shadow-orange-600/50"
+              title="Rear View"
+            >
+              <span className="text-sm font-semibold text-gray-300 group-hover:text-white">REAR</span>
+            </button>
+            <button
+              onClick={() => onCameraPreset?.('top')}
+              className="px-4 h-11 bg-gray-800/80 hover:bg-orange-600 rounded-xl transition-all flex items-center justify-center group shadow-lg hover:shadow-orange-600/50"
+              title="Top View"
+            >
+              <span className="text-sm font-semibold text-gray-300 group-hover:text-white">TOP</span>
+            </button>
+            <button
+              onClick={() => onCameraPreset?.('default')}
+              className="px-4 h-11 bg-gray-800/80 hover:bg-orange-600 rounded-xl transition-all flex items-center justify-center group shadow-lg hover:shadow-orange-600/50"
+              title="Reset View"
+            >
+              <span className="text-sm font-semibold text-gray-300 group-hover:text-white">RESET</span>
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px bg-gray-700"></div>
+
+          {/* Toggle Controls */}
+          <div className="flex gap-2">
+            <button
+              onClick={onToggleAutoSpin}
+              className={`px-4 h-11 rounded-xl transition-all flex items-center justify-center shadow-lg ${
+                autoSpin
+                  ? 'bg-orange-600 hover:bg-orange-700 shadow-orange-600/50'
+                  : 'bg-gray-800/80 hover:bg-orange-600 hover:shadow-orange-600/50'
+              }`}
+              title={autoSpin ? "Stop Auto-Spin" : "Start Auto-Spin"}
+            >
+              <span className="text-sm font-semibold text-white">SPIN</span>
+            </button>
+            <button
+              onClick={onToggleWireframe}
+              className={`px-4 h-11 rounded-xl transition-all flex items-center justify-center shadow-lg ${
+                wireframe
+                  ? 'bg-orange-600 hover:bg-orange-700 shadow-orange-600/50'
+                  : 'bg-gray-800/80 hover:bg-orange-600 hover:shadow-orange-600/50'
+              }`}
+              title={wireframe ? "Disable Wireframe" : "Enable Wireframe"}
+            >
+              <span className="text-sm font-semibold text-white">WIRE</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

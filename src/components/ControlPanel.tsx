@@ -97,33 +97,35 @@ export default function ControlPanel({
     <>
       {/* Sidebar Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-gray-900 text-white shadow-2xl transform transition-transform duration-300 z-40 ${
+        className={`fixed top-0 right-0 h-full w-[340px] bg-gray-900 text-white shadow-2xl transform transition-transform duration-300 z-40 ${
           isVisible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-6 border-b border-gray-700">
+          <div className="px-6 pt-8 pb-6 border-b border-gray-800">
             <h2 className="text-2xl font-bold">Customize</h2>
             <p className="text-gray-400 text-sm mt-1">2010 Ford Fusion</p>
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6">
-            <div>
-                <h3 className="text-lg font-semibold mb-4">Paint Color</h3>
-                <div className="grid grid-cols-4 gap-3">
+          <div className="flex-1 overflow-y-auto px-6 py-8">
+            <div className="space-y-8">
+                {/* Paint Color Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-5">Paint Color</h3>
+                  <div className="grid grid-cols-4 gap-4">
                   {paintColors.map((color) => (
                     <button
                       key={color.value}
                       onClick={() => onColorChange?.(color.value)}
-                      className="aspect-square rounded-lg border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-110"
+                      className="aspect-square rounded-xl border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-105 shadow-lg"
                       style={{ backgroundColor: color.value }}
                       title={color.name}
                     />
                   ))}
                   {/* Custom Color Picker as last square */}
-                  <div className="relative aspect-square rounded-lg border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-110 overflow-hidden">
+                  <div className="relative aspect-square rounded-xl border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-105 overflow-hidden shadow-lg">
                     <input
                       type="color"
                       value={customColor}
@@ -142,9 +144,12 @@ export default function ControlPanel({
                     />
                   </div>
                 </div>
+                </div>
 
-                <h3 className="text-lg font-semibold mt-6 mb-4">Finish</h3>
-                <div className="relative">
+                {/* Finish Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-4">Finish</h3>
+                  <div className="relative">
                   {/* Carousel */}
                   <div className="flex items-center gap-3">
                     {/* Previous Button */}
@@ -273,10 +278,12 @@ export default function ControlPanel({
                     ))}
                   </div>
                 </div>
+                </div>
 
-                {/* Window Tint */}
-                <h3 className="text-lg font-semibold mt-6 mb-4">Window Tint</h3>
-                <div className="space-y-3">
+                {/* Window Tint Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-4">Window Tint</h3>
+                  <div className="space-y-3">
                   <input
                     type="range"
                     min="0"
@@ -307,6 +314,7 @@ export default function ControlPanel({
                       </button>
                     ))}
                   </div>
+                </div>
                 </div>
 
               </div>

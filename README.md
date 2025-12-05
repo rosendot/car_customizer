@@ -35,14 +35,16 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
 - ✅ **Smart Material Detection**: Automatically preserves specific parts (windows, tires, chrome)
 
 **Camera & Views:**
-- ✅ **Floating Camera Controls**: Icon-based 2x2 grid in top-right corner
+- ✅ **Auto-Hide Camera Controls**: Horizontal bar at top center that slides out on mouse hover
   - Front, Side, Rear, Top preset views with directional arrows
   - Reset button for default view
-  - Responsive positioning that moves with sidebar
+  - Auto-spin toggle button (orange when active)
+- ✅ **Auto-Spin Feature**: Car rotates automatically by default, toggle on/off via camera controls
 - ✅ **Interactive Controls**: Orbit, pan, zoom with smooth damping
 - ✅ **9 Environments**: Sunset, Dawn, Night, Warehouse, Forest, Apartment, Studio, City, Park
 
-**Technical Features:**
+**Advanced Features:**
+- ✅ **Window Tint System**: Adjustable window darkness with slider and presets (Clear, Light, Medium, Dark)
 - ✅ **Wireframe Mode**: Toggle to view mesh geometry (great for B2B/technical clients)
 - ✅ **Shadow Toggle**: Show/hide ground shadows dynamically
 - ✅ **Screenshot Download**: Capture customizations as PNG
@@ -52,17 +54,21 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
 
 ### Live Demo Instructions
 1. Visit http://localhost:4322
-2. Click **⚙ Customize** button (top right)
-3. **Try the features:**
+2. The car will auto-spin on load - move mouse to top of screen to reveal camera controls
+3. Click **⚙ Customize** button (top right) to open customization panel
+4. **Try the features:**
    - **Color Selection**: Click any color swatch or the rainbow gradient square for custom colors
    - **Finish Carousel**: Use arrow buttons or dots to cycle through finishes (watch them preview in your car's color!)
-   - **Camera Controls**: Use the floating 2x2 grid (top-right) for instant camera angles
+   - **Camera Controls**: Move mouse to top edge to reveal auto-hide controls
+     - 6 buttons: Front, Side, Rear, Top, Reset, and Auto-Spin toggle
+     - Orange button = auto-spin active, gray = stopped
+   - **Window Tint**: Use slider or preset buttons (Clear, Light, Medium, Dark)
    - **Environment**: Dropdown to change lighting (9 HDR options)
    - **View Options**: Toggle wireframe mode or ground shadow
    - Click **📸 Screenshot** to download image
    - Click **💾 Export Config** to save settings as JSON
-4. **Interact with 3D scene:**
-   - **Left-click drag**: Rotate camera
+5. **Interact with 3D scene:**
+   - **Left-click drag**: Rotate camera (auto-spin pauses during manual rotation)
    - **Right-click drag**: Pan view
    - **Scroll wheel**: Zoom in/out
 
@@ -173,12 +179,27 @@ The finish selector features a sophisticated preview system:
 - **Smooth animations**: 500ms slide transitions with opacity fading
 - **Visual feedback**: Dot indicators show current position with expanding active state
 
+### Auto-Spin System
+The configurator features a smooth auto-rotation system:
+- **Default enabled**: Car spins automatically on load at 0.005 rad/frame (~30° per second)
+- **Toggle control**: Auto-hide button in top camera bar (orange = spinning, gray = stopped)
+- **Smooth animation**: Uses requestAnimationFrame for consistent 60fps rotation
+- **Combined effects**: Auto-spin rotation + subtle bounce effect (0.05 units vertical sine wave)
+
+### Window Tint System
+Advanced window tinting with intelligent material detection:
+- **Smart targeting**: Only affects transparent glass parts (opacity < 0.9)
+- **Light exclusion**: Automatically excludes headlights, taillights, and turn signals using RGB detection
+- **Dramatic range**: From 30% opacity (clear) to 95% opacity (limo tint)
+- **Formula**: `tintedOpacity = originalOpacity + (windowTint * (0.95 - originalOpacity))`
+- **UI controls**: Slider (0-100%) + 4 preset buttons
+
 ### Performance Optimizations
-- **60fps target**: Optimized rendering pipeline
+- **60fps target**: Optimized rendering pipeline with auto-spin at 0.005 rad/frame
 - **Lazy loading**: 3D model loads on demand with loading state
 - **Efficient updates**: Materials update without reloading geometry
 - **Shadow optimization**: Balanced quality and performance
-- **Responsive UI**: Camera controls smoothly reposition when sidebar opens/closes (300ms transition)
+- **Auto-hide UI**: Camera controls appear only on mouse proximity to reduce visual clutter
 
 ### Material Properties
 Each finish uses specific Three.js material properties:

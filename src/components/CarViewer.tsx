@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, PerspectiveCamera, Html } from '@react-three/drei';
-import { Suspense, useState, useRef } from 'react';
+import { Suspense, useState, useRef, useEffect } from 'react';
 import CarModel from './CarModel';
 import ControlPanel from './ControlPanel';
 import CameraControls from './CameraControls';
@@ -29,7 +29,9 @@ export default function CarViewer() {
   const [rotationSpeed, setRotationSpeed] = useState(0.5);
   const [brightness, setBrightness] = useState(1.5);
   const [shadowIntensity, setShadowIntensity] = useState(0.3);
+  const [fov, setFov] = useState(50);
   const controlsRef = useRef<any>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleColorChange = (color: string) => {
     setCarColor(color);
@@ -38,6 +40,30 @@ export default function CarViewer() {
   const handleFinishChange = (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => {
     setPaintFinish(finish);
   };
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      // Only handle wheel events when not over the control panel
+      const target = e.target as HTMLElement;
+      if (target.closest('.control-panel')) return;
+
+      e.preventDefault();
+      const delta = e.deltaY;
+      const newFov = Math.max(30, Math.min(75, fov + delta * 0.05));
+      setFov(newFov);
+    };
+
+    const canvasElement = canvasRef.current;
+    if (canvasElement) {
+      canvasElement.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      if (canvasElement) {
+        canvasElement.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [fov]);
 
   const handleCameraPreset = (preset: string) => {
     const presets: Record<string, [number, number, number]> = {
@@ -62,9 +88,9 @@ export default function CarViewer() {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div ref={canvasRef} className="w-full h-screen">
       <Canvas shadows>
-        <PerspectiveCamera makeDefault position={cameraPosition} fov={50} />
+        <PerspectiveCamera makeDefault position={cameraPosition} fov={fov} />
 
         {/* Lighting Setup */}
         <ambientLight intensity={0.4 * brightness} />
@@ -104,8 +130,7 @@ export default function CarViewer() {
           ref={controlsRef}
           enableDamping
           dampingFactor={0.05}
-          minDistance={3}
-          maxDistance={15}
+          enableZoom={false}
           maxPolarAngle={Math.PI / 2.1}
           target={[0, 0.5, 0]}
         />
@@ -129,11 +154,13 @@ export default function CarViewer() {
         onRotationSpeedChange={setRotationSpeed}
         onBrightnessChange={setBrightness}
         onShadowIntensityChange={setShadowIntensity}
+        onFovChange={setFov}
         currentColor={carColor}
         windowTint={windowTint}
         rotationSpeed={rotationSpeed}
         brightness={brightness}
         shadowIntensity={shadowIntensity}
+        fov={fov}
       />
     </div>
   );

@@ -7,11 +7,13 @@ interface ControlPanelProps {
   onRotationSpeedChange?: (speed: number) => void;
   onBrightnessChange?: (brightness: number) => void;
   onShadowIntensityChange?: (intensity: number) => void;
+  onFovChange?: (fov: number) => void;
   currentColor?: string;
   windowTint?: number;
   rotationSpeed?: number;
   brightness?: number;
   shadowIntensity?: number;
+  fov?: number;
 }
 
 export default function ControlPanel({
@@ -21,11 +23,13 @@ export default function ControlPanel({
   onRotationSpeedChange,
   onBrightnessChange,
   onShadowIntensityChange,
+  onFovChange,
   currentColor,
   windowTint,
   rotationSpeed = 0.5,
   brightness = 1.5,
-  shadowIntensity = 0.3
+  shadowIntensity = 0.3,
+  fov = 50
 }: ControlPanelProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
@@ -109,7 +113,7 @@ export default function ControlPanel({
     <>
       {/* Sidebar Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-[340px] bg-gray-900 text-white shadow-2xl transform transition-transform duration-300 z-40 ${
+        className={`control-panel fixed top-0 right-0 h-full w-[340px] bg-gray-900 text-white shadow-2xl transform transition-transform duration-300 z-40 ${
           isVisible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -388,6 +392,27 @@ export default function ControlPanel({
                       <span>Light</span>
                       <span className="text-white font-semibold">{Math.round(shadowIntensity * 100)}%</span>
                       <span>Dark</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Camera FOV Section */}
+                <div className="bg-gray-800/30 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold mb-4">Camera Zoom</h3>
+                  <div className="space-y-3">
+                    <input
+                      type="range"
+                      min="30"
+                      max="75"
+                      step="1"
+                      value={fov}
+                      onChange={(e) => onFovChange?.(parseFloat(e.target.value))}
+                      className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Zoomed In</span>
+                      <span className="text-white font-semibold">{fov}°</span>
+                      <span>Zoomed Out</span>
                     </div>
                   </div>
                 </div>

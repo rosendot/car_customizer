@@ -1,4 +1,4 @@
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, PerspectiveCamera, Html } from '@react-three/drei';
 import { Suspense, useState, useRef } from 'react';
 import CarModel from './CarModel';
@@ -19,18 +19,12 @@ function LoadingIndicator() {
 export default function CarViewer() {
   const [carColor, setCarColor] = useState('#e74c3c');
   const [paintFinish, setPaintFinish] = useState<'matte' | 'gloss' | 'metallic' | 'chrome'>('gloss');
-  const [selectedParts, setSelectedParts] = useState({
-    wheels: 'stock',
-    spoiler: 'none',
-  });
-  const [environment, setEnvironment] = useState<'sunset' | 'dawn' | 'night' | 'warehouse' | 'forest' | 'apartment' | 'studio' | 'city' | 'park'>('city');
-  const [showShadow, setShowShadow] = useState(true);
+  const [environment] = useState<'sunset' | 'dawn' | 'night' | 'warehouse' | 'forest' | 'apartment' | 'studio' | 'city' | 'park'>('city');
+  const [showShadow] = useState(true);
   const [wireframe, setWireframe] = useState(false);
   const [windowTint, setWindowTint] = useState(0.3); // 0 = clear, 1 = darkest
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [autoSpin, setAutoSpin] = useState(true);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef<any>(null);
 
   const handleColorChange = (color: string) => {
@@ -39,26 +33,6 @@ export default function CarViewer() {
 
   const handleFinishChange = (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => {
     setPaintFinish(finish);
-  };
-
-  const handlePartChange = (category: string, partId: string) => {
-    setSelectedParts(prev => ({ ...prev, [category]: partId }));
-    console.log(`${category} changed to:`, partId);
-  };
-
-  const handleScreenshot = () => {
-    const canvas = document.querySelector('canvas');
-    if (!canvas) return;
-
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.download = `car-customization-${Date.now()}.png`;
-      link.href = url;
-      link.click();
-      URL.revokeObjectURL(url);
-    }, 'image/png');
   };
 
   const handleCameraPreset = (preset: string) => {
@@ -73,22 +47,6 @@ export default function CarViewer() {
     if (controlsRef.current) {
       controlsRef.current.target.set(0, 0.5, 0);
     }
-  };
-
-  const handleExportConfig = () => {
-    const config = {
-      color: carColor,
-      finish: paintFinish,
-      environment,
-      timestamp: new Date().toISOString(),
-    };
-    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = `car-config-${Date.now()}.json`;
-    link.href = url;
-    link.click();
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -160,10 +118,7 @@ export default function CarViewer() {
       <ControlPanel
         onColorChange={handleColorChange}
         onFinishChange={handleFinishChange}
-        onPartChange={handlePartChange}
-        onScreenshot={handleScreenshot}
         onWindowTintChange={setWindowTint}
-        onSidebarToggle={setSidebarOpen}
         currentColor={carColor}
         windowTint={windowTint}
       />

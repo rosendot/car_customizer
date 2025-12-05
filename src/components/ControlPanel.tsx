@@ -3,10 +3,7 @@ import { useState } from 'react';
 interface ControlPanelProps {
   onColorChange?: (color: string) => void;
   onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
-  onPartChange?: (category: string, partId: string) => void;
-  onScreenshot?: () => void;
   onWindowTintChange?: (tint: number) => void;
-  onSidebarToggle?: (isOpen: boolean) => void;
   currentColor?: string;
   windowTint?: number;
 }
@@ -14,10 +11,7 @@ interface ControlPanelProps {
 export default function ControlPanel({
   onColorChange,
   onFinishChange,
-  onPartChange,
-  onScreenshot,
   onWindowTintChange,
-  onSidebarToggle,
   currentColor,
   windowTint
 }: ControlPanelProps) {
@@ -26,9 +20,7 @@ export default function ControlPanel({
   const [finishIndex, setFinishIndex] = useState(0);
 
   const handleToggle = () => {
-    const newState = !isOpen;
-    setIsOpen(newState);
-    onSidebarToggle?.(newState);
+    setIsOpen(!isOpen);
   };
 
   // Function to determine if color is light or dark for text contrast
@@ -258,15 +250,6 @@ export default function ControlPanel({
               </div>
           </div>
 
-          {/* Footer */}
-          <div className="p-6 border-t border-gray-700 space-y-2">
-            <button
-              onClick={onScreenshot}
-              className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-colors"
-            >
-              📸 Screenshot
-            </button>
-          </div>
         </div>
       </div>
     </>

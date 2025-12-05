@@ -298,7 +298,17 @@ export default function ControlPanel({
 
                 {/* Window Tint Section */}
                 <div className="bg-gray-800/30 rounded-xl p-5">
-                  <h3 className="text-lg font-semibold mb-4">Window Tint</h3>
+                  <h3
+                    className="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-400 transition-colors select-none"
+                    onClick={(e) => {
+                      if (e.ctrlKey) {
+                        onWindowTintChange?.(0.5);
+                      }
+                    }}
+                    title="Ctrl+Click to reset to 50%"
+                  >
+                    Window Tint
+                  </h3>
                   <div className="space-y-3">
                   <input
                     type="range"
@@ -335,7 +345,17 @@ export default function ControlPanel({
 
                 {/* Rotation Speed Section */}
                 <div className="bg-gray-800/30 rounded-xl p-5">
-                  <h3 className="text-lg font-semibold mb-4">Rotation Speed</h3>
+                  <h3
+                    className="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-400 transition-colors select-none"
+                    onClick={(e) => {
+                      if (e.ctrlKey) {
+                        onRotationSpeedChange?.(0.5);
+                      }
+                    }}
+                    title="Ctrl+Click to reset to 50%"
+                  >
+                    Rotation Speed
+                  </h3>
                   <div className="space-y-3">
                     <input
                       type="range"
@@ -356,11 +376,21 @@ export default function ControlPanel({
 
                 {/* Brightness Section */}
                 <div className="bg-gray-800/30 rounded-xl p-5">
-                  <h3 className="text-lg font-semibold mb-4">Brightness</h3>
+                  <h3
+                    className="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-400 transition-colors select-none"
+                    onClick={(e) => {
+                      if (e.ctrlKey) {
+                        onBrightnessChange?.(1.5);
+                      }
+                    }}
+                    title="Ctrl+Click to reset to 1.5x"
+                  >
+                    Brightness
+                  </h3>
                   <div className="space-y-3">
                     <input
                       type="range"
-                      min="0.5"
+                      min="0"
                       max="3"
                       step="0.1"
                       value={brightness}
@@ -377,13 +407,23 @@ export default function ControlPanel({
 
                 {/* Shadow Intensity Section */}
                 <div className="bg-gray-800/30 rounded-xl p-5">
-                  <h3 className="text-lg font-semibold mb-4">Shadow Intensity</h3>
+                  <h3
+                    className="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-400 transition-colors select-none"
+                    onClick={(e) => {
+                      if (e.ctrlKey) {
+                        onShadowIntensityChange?.(0.5);
+                      }
+                    }}
+                    title="Ctrl+Click to reset to 50%"
+                  >
+                    Shadow Intensity
+                  </h3>
                   <div className="space-y-3">
                     <input
                       type="range"
                       min="0"
-                      max="0.8"
-                      step="0.05"
+                      max="1"
+                      step="0.01"
                       value={shadowIntensity}
                       onChange={(e) => onShadowIntensityChange?.(parseFloat(e.target.value))}
                       className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
@@ -398,12 +438,22 @@ export default function ControlPanel({
 
                 {/* Camera FOV Section */}
                 <div className="bg-gray-800/30 rounded-xl p-5">
-                  <h3 className="text-lg font-semibold mb-4">Camera Zoom</h3>
+                  <h3
+                    className="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-400 transition-colors select-none"
+                    onClick={(e) => {
+                      if (e.ctrlKey) {
+                        onFovChange?.(50);
+                      }
+                    }}
+                    title="Ctrl+Click to reset to 50°"
+                  >
+                    Camera Zoom
+                  </h3>
                   <div className="space-y-3">
                     <input
                       type="range"
-                      min="30"
-                      max="75"
+                      min="0"
+                      max="100"
                       step="1"
                       value={fov}
                       onChange={(e) => onFovChange?.(parseFloat(e.target.value))}

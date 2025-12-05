@@ -9,14 +9,14 @@
 This car configurator showcases the core technology needed for e-commerce 3D product customization:
 1. **Real-time Material Changes** - Instant color and finish updates at 60fps
 2. **Smart Material Detection** - Automatically preserves windows, tires, and chrome parts
-3. **Professional Rendering** - 9 HDR environments, dynamic lighting, realistic shadows
-4. **Camera Control System** - Preset views (Front, Side, Rear, Top) with smooth transitions
-5. **Advanced Features** - Wireframe mode, shadow toggle, config export, custom color picker
-6. **Screenshot & Export** - Download images and configuration JSON
-7. **Production-Ready UI** - Responsive sidebar with all controls organized
+3. **Professional Rendering** - HDR environment lighting with realistic shadows
+4. **Auto-Hide Camera Controls** - Preset views with auto-spin and wireframe modes
+5. **Advanced Features** - Window tinting system with intelligent light detection
+6. **Screenshot Capture** - Download customization images
+7. **Production-Ready UI** - Clean, responsive interface with organized controls
 
 ### Why This Matters for Clients
-> The same system that handles a complex car model with 100+ parts can easily handle simpler products like sofas, backpacks, jewelry, or industrial equipment.
+> The same system that handles a complex car model with 100+ parts can easily handle simpler products like sofas, backpacks, jewelry, or industrial equipment. This is a streamlined demo focused on core customization features.
 
 ---
 
@@ -39,16 +39,14 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
   - Front, Side, Rear, Top preset views with directional arrows
   - Reset button for default view
   - Auto-spin toggle button (orange when active)
+  - Wireframe mode toggle button
 - ✅ **Auto-Spin Feature**: Car rotates automatically by default, toggle on/off via camera controls
 - ✅ **Interactive Controls**: Orbit, pan, zoom with smooth damping
-- ✅ **9 Environments**: Sunset, Dawn, Night, Warehouse, Forest, Apartment, Studio, City, Park
 
 **Advanced Features:**
 - ✅ **Window Tint System**: Adjustable window darkness with slider and presets (Clear, Light, Medium, Dark)
-- ✅ **Wireframe Mode**: Toggle to view mesh geometry (great for B2B/technical clients)
-- ✅ **Shadow Toggle**: Show/hide ground shadows dynamically
+- ✅ **Wireframe Mode**: Toggle via camera controls to view mesh geometry
 - ✅ **Screenshot Download**: Capture customizations as PNG
-- ✅ **Export Configuration**: Download settings as JSON for save/load functionality
 - ✅ **Loading State**: Professional loading indicator
 - ✅ **60fps Performance**: Smooth rendering on all devices
 
@@ -60,15 +58,12 @@ This car configurator showcases the core technology needed for e-commerce 3D pro
    - **Color Selection**: Click any color swatch or the rainbow gradient square for custom colors
    - **Finish Carousel**: Use arrow buttons or dots to cycle through finishes (watch them preview in your car's color!)
    - **Camera Controls**: Move mouse to top edge to reveal auto-hide controls
-     - 6 buttons: Front, Side, Rear, Top, Reset, and Auto-Spin toggle
-     - Orange button = auto-spin active, gray = stopped
+     - 7 buttons: Front, Side, Rear, Top, Reset, Auto-Spin toggle, and Wireframe toggle
+     - Orange button = feature active, gray = feature off
    - **Window Tint**: Use slider or preset buttons (Clear, Light, Medium, Dark)
-   - **Environment**: Dropdown to change lighting (9 HDR options)
-   - **View Options**: Toggle wireframe mode or ground shadow
    - Click **📸 Screenshot** to download image
-   - Click **💾 Export Config** to save settings as JSON
 5. **Interact with 3D scene:**
-   - **Left-click drag**: Rotate camera (auto-spin pauses during manual rotation)
+   - **Left-click drag**: Rotate camera
    - **Right-click drag**: Pan view
    - **Scroll wheel**: Zoom in/out
 
@@ -253,11 +248,11 @@ These features can be added based on client needs:
 - Real-time pricing calculator
 
 **Enhanced UX**
-- Multiple camera preset angles
 - AR/WebXR mode (view in your space)
 - Social sharing with preview images
 - URL-based build sharing
 - Save/load configurations
+- Environment selector for different lighting scenes
 
 **Enterprise Features**
 - Multi-tenant system

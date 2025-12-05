@@ -148,7 +148,13 @@ export default function CarViewer() {
       </div>
 
       {/* Camera Controls - Auto-hiding top center */}
-      <CameraControls onCameraPreset={handleCameraPreset} autoSpin={autoSpin} onToggleAutoSpin={() => setAutoSpin(!autoSpin)} />
+      <CameraControls
+        onCameraPreset={handleCameraPreset}
+        autoSpin={autoSpin}
+        onToggleAutoSpin={() => setAutoSpin(!autoSpin)}
+        wireframe={wireframe}
+        onToggleWireframe={() => setWireframe(!wireframe)}
+      />
 
       {/* Control Panel */}
       <ControlPanel
@@ -156,16 +162,9 @@ export default function CarViewer() {
         onFinishChange={handleFinishChange}
         onPartChange={handlePartChange}
         onScreenshot={handleScreenshot}
-        onEnvironmentChange={setEnvironment}
-        onToggleShadow={() => setShowShadow(!showShadow)}
-        onToggleWireframe={() => setWireframe(!wireframe)}
         onWindowTintChange={setWindowTint}
-        onExportConfig={handleExportConfig}
         onSidebarToggle={setSidebarOpen}
         currentColor={carColor}
-        currentEnvironment={environment}
-        showShadow={showShadow}
-        wireframe={wireframe}
         windowTint={windowTint}
       />
     </div>

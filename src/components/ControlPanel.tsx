@@ -5,16 +5,9 @@ interface ControlPanelProps {
   onFinishChange?: (finish: 'matte' | 'gloss' | 'metallic' | 'chrome') => void;
   onPartChange?: (category: string, partId: string) => void;
   onScreenshot?: () => void;
-  onEnvironmentChange?: (env: string) => void;
-  onToggleShadow?: () => void;
-  onToggleWireframe?: () => void;
   onWindowTintChange?: (tint: number) => void;
-  onExportConfig?: () => void;
   onSidebarToggle?: (isOpen: boolean) => void;
   currentColor?: string;
-  currentEnvironment?: string;
-  showShadow?: boolean;
-  wireframe?: boolean;
   windowTint?: number;
 }
 
@@ -23,16 +16,9 @@ export default function ControlPanel({
   onFinishChange,
   onPartChange,
   onScreenshot,
-  onEnvironmentChange,
-  onToggleShadow,
-  onToggleWireframe,
   onWindowTintChange,
-  onExportConfig,
   onSidebarToggle,
   currentColor,
-  currentEnvironment,
-  showShadow,
-  wireframe,
   windowTint
 }: ControlPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -234,24 +220,6 @@ export default function ControlPanel({
                   </div>
                 </div>
 
-                {/* Environment */}
-                <h3 className="text-lg font-semibold mt-6 mb-4">Environment</h3>
-                <select
-                  value={currentEnvironment}
-                  onChange={(e) => onEnvironmentChange?.(e.target.value)}
-                  className="w-full py-3 px-4 bg-gray-800 rounded-lg border-2 border-gray-700 focus:border-orange-500 outline-none cursor-pointer"
-                >
-                  <option value="sunset">Sunset</option>
-                  <option value="dawn">Dawn</option>
-                  <option value="night">Night</option>
-                  <option value="warehouse">Warehouse</option>
-                  <option value="forest">Forest</option>
-                  <option value="apartment">Apartment</option>
-                  <option value="studio">Studio</option>
-                  <option value="city">City</option>
-                  <option value="park">Park</option>
-                </select>
-
                 {/* Window Tint */}
                 <h3 className="text-lg font-semibold mt-6 mb-4">Window Tint</h3>
                 <div className="space-y-3">
@@ -287,26 +255,6 @@ export default function ControlPanel({
                   </div>
                 </div>
 
-                {/* View Options */}
-                <h3 className="text-lg font-semibold mt-6 mb-4">View Options</h3>
-                <div className="space-y-2">
-                  <button
-                    onClick={onToggleShadow}
-                    className={`w-full py-3 px-4 rounded-lg transition-colors text-left ${
-                      showShadow ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-gray-700'
-                    }`}
-                  >
-                    {showShadow ? '✓' : '○'} Ground Shadow
-                  </button>
-                  <button
-                    onClick={onToggleWireframe}
-                    className={`w-full py-3 px-4 rounded-lg transition-colors text-left ${
-                      wireframe ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-gray-700'
-                    }`}
-                  >
-                    {wireframe ? '✓' : '○'} Wireframe Mode
-                  </button>
-                </div>
               </div>
           </div>
 
@@ -317,12 +265,6 @@ export default function ControlPanel({
               className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-colors"
             >
               📸 Screenshot
-            </button>
-            <button
-              onClick={onExportConfig}
-              className="w-full py-3 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg font-semibold transition-colors"
-            >
-              💾 Export Config
             </button>
           </div>
         </div>

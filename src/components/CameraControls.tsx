@@ -32,71 +32,56 @@ export default function CameraControls({ onCameraPreset, autoSpin, onToggleAutoS
     }`}>
       <button
         onClick={() => onCameraPreset?.('front')}
-        className="w-12 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
+        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
         title="Front View"
       >
-        <svg className="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-        </svg>
+        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">FRONT</span>
       </button>
       <button
         onClick={() => onCameraPreset?.('side')}
-        className="w-12 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
+        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
         title="Side View"
       >
-        <svg className="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-        </svg>
+        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">SIDE</span>
       </button>
       <button
         onClick={() => onCameraPreset?.('rear')}
-        className="w-12 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
+        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
         title="Rear View"
       >
-        <svg className="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-        </svg>
+        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">REAR</span>
       </button>
       <button
         onClick={() => onCameraPreset?.('top')}
-        className="w-12 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
+        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
         title="Top View"
       >
-        <svg className="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-        </svg>
+        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">TOP</span>
       </button>
       <button
         onClick={() => onCameraPreset?.('default')}
-        className="w-12 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
+        className="px-4 h-12 bg-gray-800 hover:bg-orange-600 rounded-lg transition-colors flex items-center justify-center group"
         title="Reset View"
       >
-        <svg className="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-        </svg>
+        <span className="text-sm font-semibold text-gray-400 group-hover:text-white">RESET</span>
       </button>
       <button
         onClick={onToggleAutoSpin}
-        className={`w-12 h-12 rounded-lg transition-colors flex items-center justify-center group ${
+        className={`px-4 h-12 rounded-lg transition-colors flex items-center justify-center group ${
           autoSpin ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-orange-600'
         }`}
         title={autoSpin ? "Stop Auto-Spin" : "Start Auto-Spin"}
       >
-        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          <circle cx="12" cy="12" r="3" strokeWidth={2} />
-        </svg>
+        <span className="text-sm font-semibold text-white">SPIN</span>
       </button>
       <button
         onClick={onToggleWireframe}
-        className={`w-12 h-12 rounded-lg transition-colors flex items-center justify-center group ${
+        className={`px-4 h-12 rounded-lg transition-colors flex items-center justify-center group ${
           wireframe ? 'bg-orange-600 hover:bg-orange-700' : 'bg-gray-800 hover:bg-orange-600'
         }`}
         title={wireframe ? "Disable Wireframe" : "Enable Wireframe"}
       >
-        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
-        </svg>
+        <span className="text-sm font-semibold text-white">WIRE</span>
       </button>
     </div>
   );

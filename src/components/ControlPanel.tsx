@@ -6,13 +6,11 @@ interface ControlPanelProps {
   onWindowTintChange?: (tint: number) => void;
   onRotationSpeedChange?: (speed: number) => void;
   onBrightnessChange?: (brightness: number) => void;
-  onShadowIntensityChange?: (intensity: number) => void;
   onFovChange?: (fov: number) => void;
   currentColor?: string;
   windowTint?: number;
   rotationSpeed?: number;
   brightness?: number;
-  shadowIntensity?: number;
   fov?: number;
 }
 
@@ -22,13 +20,11 @@ export default function ControlPanel({
   onWindowTintChange,
   onRotationSpeedChange,
   onBrightnessChange,
-  onShadowIntensityChange,
   onFovChange,
   currentColor,
   windowTint,
   rotationSpeed = 0.5,
   brightness = 1.5,
-  shadowIntensity = 0.3,
   fov = 50
 }: ControlPanelProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -401,37 +397,6 @@ export default function ControlPanel({
                       <span>Dim</span>
                       <span className="text-white font-semibold">{brightness.toFixed(1)}x</span>
                       <span>Bright</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Shadow Intensity Section */}
-                <div className="bg-gray-800/30 rounded-xl p-5">
-                  <h3
-                    className="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-400 transition-colors select-none"
-                    onClick={(e) => {
-                      if (e.ctrlKey) {
-                        onShadowIntensityChange?.(0.5);
-                      }
-                    }}
-                    title="Ctrl+Click to reset to 50%"
-                  >
-                    Shadow Intensity
-                  </h3>
-                  <div className="space-y-3">
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.01"
-                      value={shadowIntensity}
-                      onChange={(e) => onShadowIntensityChange?.(parseFloat(e.target.value))}
-                      className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-600"
-                    />
-                    <div className="flex justify-between text-xs text-gray-400">
-                      <span>Light</span>
-                      <span className="text-white font-semibold">{Math.round(shadowIntensity * 100)}%</span>
-                      <span>Dark</span>
                     </div>
                   </div>
                 </div>

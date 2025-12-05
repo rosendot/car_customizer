@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ControlPanelProps {
   onColorChange?: (color: string) => void;
@@ -15,13 +15,24 @@ export default function ControlPanel({
   currentColor,
   windowTint
 }: ControlPanelProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [customColor, setCustomColor] = useState(currentColor || '#e74c3c');
   const [finishIndex, setFinishIndex] = useState(0);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Show when mouse is near the right edge (within 80px from right)
+      if (e.clientX > window.innerWidth - 80) {
+        setIsVisible(true);
+      } else if (e.clientX < window.innerWidth - 350) {
+        // Hide when mouse moves away (more than 350px from right)
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // Function to determine if color is light or dark for text contrast
   const isLightColor = (hexColor: string) => {
@@ -84,18 +95,10 @@ export default function ControlPanel({
 
   return (
     <>
-      {/* Toggle Button */}
-      <button
-        onClick={handleToggle}
-        className="fixed top-4 right-4 z-50 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors shadow-lg"
-      >
-        {isOpen ? '✕ Close' : '⚙ Customize'}
-      </button>
-
       {/* Sidebar Panel */}
       <div
         className={`fixed top-0 right-0 h-full w-80 bg-gray-900 text-white shadow-2xl transform transition-transform duration-300 z-40 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+          isVisible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">

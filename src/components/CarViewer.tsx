@@ -25,6 +25,7 @@ export default function CarViewer() {
   const [windowTint, setWindowTint] = useState(0.3); // 0 = clear, 1 = darkest
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([5, 2, 5]);
   const [autoSpin, setAutoSpin] = useState(true);
+  const [resetKey, setResetKey] = useState(0);
   const controlsRef = useRef<any>(null);
 
   const handleColorChange = (color: string) => {
@@ -43,9 +44,17 @@ export default function CarViewer() {
       top: [0, 8, 0],
       default: [5, 2, 5],
     };
+
+    // Force remount of CarModel to reset rotation
+    setResetKey(prev => prev + 1);
+
+    // Update camera position
     setCameraPosition(presets[preset] || presets.default);
+
+    // Reset orbit controls
     if (controlsRef.current) {
       controlsRef.current.target.set(0, 0.5, 0);
+      controlsRef.current.update();
     }
   };
 
@@ -76,7 +85,7 @@ export default function CarViewer() {
 
         {/* Car Model */}
         <Suspense fallback={<LoadingIndicator />}>
-          <CarModel color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} autoSpin={autoSpin} />
+          <CarModel key={resetKey} color={carColor} finish={paintFinish} wireframe={wireframe} windowTint={windowTint} autoSpin={autoSpin} />
         </Suspense>
 
         {/* Ground plane */}
